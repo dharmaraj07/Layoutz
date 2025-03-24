@@ -23,8 +23,8 @@ const AchievementsSection = () => {
           transition={{ repeat: Infinity, duration: 15, ease: "linear" }}
         >
           {[...achievements, ...achievements].map((item, index) => (
-            <div key={index} className="bg-blue shadow-lg rounded-lg p-6 w-64 flex-shrink-0"> 
-              <item.icon className="text-primary h-10 w-10 mb-3" />
+            <div key={index} className="bg-blue shadow-2xl rounded-lg p-6 h-32 w-64 flex-shrink-0"> 
+              <item.icon className="inline-flex items-center justify-center rounded-full bg-housing-100 text-housing-700 mb-3 h-8 w-8" />
               <h3 className="text-xl font-semibold">{item.value}</h3>
               <p className="text-sm">{item.title}</p>
             </div>
