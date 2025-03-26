@@ -3,10 +3,13 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
 export default defineConfig({
-  base: "/Layoutz/", // 👈 This ensures correct paths on GitHub Pages
+  base: "/", // 👈 Correct for GitHub Pages
   server: {
-    host: "::",
+    host: "0.0.0.0", // Better compatibility
     port: 8080,
+  },
+  build: {
+    outDir: "dist", // Ensure correct output directory
   },
   plugins: [react()],
   resolve: {
@@ -15,4 +18,3 @@ export default defineConfig({
     },
   },
 });
-
