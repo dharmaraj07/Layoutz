@@ -1,5 +1,5 @@
 {
-  "homepage":"https://dharmaraj07.github.io/Layoutz/",
+  "homepage": "https://dharmaraj07.github.io/Layoutz/",
   "name": "vite_react_shadcn_ts",
   "private": true,
   "version": "0.0.0",
@@ -10,7 +10,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy":"npm run build",
+    "predeploy": "vite build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
