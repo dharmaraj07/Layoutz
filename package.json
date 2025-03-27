@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "add-domain": "echo \"layoutz.in\" > dist/CNAME",
-    "predeploy": "npm run build && npm run add-domain ",
+    "predeploy": "vite build && cp CNAME build/",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
