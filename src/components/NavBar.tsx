@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/components/ui/use-toast';
 import logo from '../image/logo.png';  
+import { ScheduleVisitDialog } from './ScheduleVisitDialog';
+
 
 
 
@@ -71,6 +73,8 @@ const NavBar = () => {
           <NavItem href="/" label="Home" isActive={isActive('/')} />
           <NavItem href="/properties" label="Properties" isActive={isActive('/properties')} />
           <NavItem href="/investor" label="Investor" isActive={isActive('/investor')} />
+          <NavItem href="/visits" label="Visits" isActive={isActive('/visits')} />
+          <NavItem href="/enquiries" label="Enquiries" isActive={isActive('/enquiries')} />
           <NavItem href="/about" label="About" isActive={isActive('/about')} isDropdown={true} />
           <NavItem href="/contact" label="Contact" isActive={isActive('/contact')} />
         </div>
@@ -83,12 +87,7 @@ const NavBar = () => {
             <Phone className="w-4 h-4 mr-2" />
             <span>+91 7639302976</span>
           </a>
-          <Button 
-            onClick={handleContactClick}
-            className="bg-housing-700 hover:bg-housing-800 text-white rounded-md px-6 transition-all duration-300 hover:shadow-lg"
-          >
-            Schedule Visit
-          </Button>
+          <ScheduleVisitDialog />
         </div>
 
         <button

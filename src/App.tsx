@@ -9,6 +9,8 @@ import NotFound from "./pages/NotFound";
 import PropertyEnquiry from "./pages/PropertyEnquiry";
 import Properties from "./pages/Properties";
 import Investor from "./pages/Investor";
+import Visits from "./pages/Visits";
+import Enquiries from "./pages/Enquiries";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +24,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/properties" element={<Properties />} />
           <Route path="/investor" element={<Investor />} />
+          <Route path="/visits" element={<Visits />} />
+          <Route path="/enquiries" element={<Enquiries />} />
           <Route path="/property-enquiry/:propertyId" element={<PropertyEnquiry />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
