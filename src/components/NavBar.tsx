@@ -5,6 +5,8 @@ import { Menu, X, Phone, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/components/ui/use-toast';
+import logo from '../image/logo.png';  
+
 
 
 const NavBar = () => {
@@ -59,7 +61,7 @@ const NavBar = () => {
           to="/" 
           className="relative z-10 text-2xl md:text-4xl flex font-heading font-bold text-housing-800 transition-all gap-3 hover:scale-105"
         >
-          <img src="src/image/logo.png" alt="Housing" className="w-10 h-10" />
+          <img src={logo}  alt="L" className="w-10 h-10" />
           <span className="inline-block transform transition-transform  duration-300">
             Layoutz
           </span>
