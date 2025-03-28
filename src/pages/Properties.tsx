@@ -18,12 +18,12 @@ import ProjectPageSearch from '@/components/ProjectPageSearch';
 const propertiesData = [
   {
     id: "prop1",
-    title: "Modern Family Home",
-    location: "Beverly Hills, Los Angeles",
-    price: "$1,250,000",
-    bedrooms: 4,
-    bathrooms: 3,
-    area: "2,400 sq ft",
+    title: "Garden Palace",
+    location: "Namakkal, Gurusamypalaiyam",
+    price: "2,00,00,000",
+    bedrooms: 8,
+    bathrooms: 10,
+    area: "3,600 sq ft",
     type: "For Sale",
     imageUrl: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2075&q=80"
   },
