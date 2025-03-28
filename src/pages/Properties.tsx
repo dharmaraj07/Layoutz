@@ -18,7 +18,7 @@ import ProjectPageSearch from '@/components/ProjectPageSearch';
 const propertiesData = [
   {
     id: "prop1",
-    title: "Garden Palace",
+    title: "Garden Villa Premium",
     location: "Namakkal, Gurusamypalaiyam",
     price: "2,00,00,000",
     bedrooms: 8,
@@ -29,12 +29,12 @@ const propertiesData = [
   },
   {
     id: "prop2",
-    title: "Downtown Apartment",
-    location: "Manhattan, New York",
-    price: "$850,000",
+    title: "Garden Villa",
+    location: "Namakkal, Gurusamypalaiyam",
+    price: "80,00,000",
     bedrooms: 2,
-    bathrooms: 2,
-    area: "1,200 sq ft",
+    bathrooms: 3,
+    area: "3,600 sq ft",
     type: "For Sale",
     imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
   },
