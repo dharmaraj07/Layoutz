@@ -18,7 +18,7 @@ const port = process.env.PORT;
 
 
 app.use(cors({
-  origin: "http://localhost:8080",
+  origin: "https://layoutz.in/",
   credentials:true
 
 }))
