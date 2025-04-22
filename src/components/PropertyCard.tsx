@@ -1,89 +1,147 @@
 
-import { useState } from 'react';
-import { MapPin, Home, Maximize, BedDouble, Bath, Heart } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
+import { useLazyImage } from '@/components/lib/animations';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Button } from './ui/button';
+import { Property } from '@/types/property';
 
-interface PropertyCardProps {
-  property: {
-    id: string;
-    title: string;
-    location: string;
-    price: string;
-    bedrooms: number;
-    bathrooms: number;
-    area: string;
-    type: string;
-    imageUrl: string;
-  };
-}
 
-const PropertyCard = ({ property }: PropertyCardProps) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
+
+type PropertyCardProps = Property & {
+  className?: string;
+};
+
+const PropertyCard = ({
+
+  image,
+  title,
+  location,
+  price,
+  beds,
+  baths,
+  sqft,
+  featured = false,
+  forSale = true,
+  residential = true,
+  type,
+  className,
+  approved
+}: PropertyCardProps) => {
+  const [imageSrc, imageLoaded] = useLazyImage(image);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="hoverable-card bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100"
+    <div 
+      className={cn(
+        "property-card overflow-hidden rounded-xl border bg-card text-card-foreground group shadow-sm",
+        featured && "md:co1-2",
+        className
+      )}
     >
-      <div className="relative overflow-hidden aspect-[4/3]">
-        <div className={`${isLoaded ? 'hidden' : 'block'} absolute inset-0 bg-gray-200 animate-shimmer`} />
-        <img
-          src={property.imageUrl}
-          alt={property.title}
-          onLoad={() => setIsLoaded(true)}
-          className={`w-full h-full object-cover transition-all duration-700 hover:scale-105 ${
-            isLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
-        />
-        <div className="absolute top-4 left-4">
-          <span className="inline-block py-1 px-2 text-xs font-medium text-white bg-housing-600 rounded-md">
-            {property.type}
-          </span>
-        </div>
-        <button
-          onClick={() => setIsFavorite(!isFavorite)}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center transition-all hover:bg-white"
-        >
-          <Heart
-            className={`w-4 h-4 transition-colors ${
-              isFavorite ? 'fill-red-500 text-red-500' : 'text-gray-600'
-            }`}
+      <div className="flex flex-col">
+        <div className="relative overflow-hidden aspect-[16/10]">
+          <div 
+            className={cn(
+              "absolute inset-0 bg-muted/20 backdrop-blur-sm transition-opacity duration-500",
+              imageLoaded ? "opacity-0" : "opacity-100"
+            )}
           />
-        </button>
-      </div>
-      <div className="p-5">
-        <div className="flex items-center text-housing-600 text-sm mb-2">
-          <MapPin className="w-4 h-4 mr-1" />
-          <span>{property.location}</span>
+          <div 
+            className="property-image h-full w-full bg-cover bg-center transition-transform duration-700"
+            style={{
+              backgroundImage: `url(${imageSrc})`,
+              opacity: imageLoaded ? 1 : 0,
+              transition: 'opacity 0.5s ease-in-out'
+            }}
+          />
+          {featured && (
+            <Badge className="absolute top-4 left-4 bg-primary/90 hover:bg-primary">
+              Featured
+            </Badge>
+          )}
+
+
+          <Badge className={cn(
+            "absolute top-4 left-1/2 transform -translate-x-1/2", 
+            residential ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"
+          )}>
+            {residential ? 'Residential' : 'Commercial'}
+          </Badge>
+
+
+
+          {type === 'plots' && (<Badge className={cn(
+            "absolute top-4 right-4", 
+            forSale ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"
+          )}>
+            {forSale ? 'For Sale' : 'Sold Out'}
+          </Badge>)}
+          {type !== 'plots' && (<Badge className={cn(
+            "absolute top-4 right-4", 
+            forSale ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"
+          )}>
+            {forSale ? 'For Sale' : 'For Rent'}
+          </Badge>)}
         </div>
-        <h3 className="font-heading font-semibold text-lg mb-2 text-gray-800">{property.title}</h3>
-        <p className="text-housing-700 text-xl font-bold mb-4">{property.price}</p>
-        <div className="grid grid-cols-3 gap-2 pt-4 border-t border-gray-100 mb-4">
-          <div className="flex items-center text-gray-600">
-            <BedDouble className="w-4 h-4 mr-2 text-housing-500" />
-            <span className="text-sm">{property.bedrooms} Beds</span>
+        <div className="p-5">
+          <div className="flex items-start justify-between">
+            <div>
+              <h3 className="font-display font-medium text-lg md:text-xl mb-1 tracking-tight">{title}</h3>
+              <div className="flex items-center text-muted-foreground text-sm mb-1">
+                <MapPin className="h-3.5 w-3.5 mr-1" />
+                <span>{location}</span>
+              </div>
+              <div className="text-medium text-muted-foreground capitalize mb-3">
+                {type}
+              </div>
+              
+            </div>
+ 
+            <div className="flex items-center gap-1">
+               <span className="text-large text-gray-500 font-medium">From ₹</span>
+                <span className="text-large font-medium">{price}</span>
+            </div>
           </div>
-          <div className="flex items-center text-gray-600">
-            <Bath className="w-4 h-4 mr-2 text-housing-500" />
-            <span className="text-sm">{property.bathrooms} Baths</span>
+          
+          <div className="grid grid-cols-3 gap-2 pt-4 border-t">
+          {type !== 'plots' && (
+            <>
+            <div className="text-center">
+              <p className="text-muted-foreground text-xs mb-1">Beds</p>
+              <p className="font-medium">{beds}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-muted-foreground text-xs mb-1">Baths</p> 
+              <p className="font-medium">{baths}</p>
+            </div> </>)}
+            <div className="text-center">
+              <p className="text-muted-foreground text-xs mb-1">Sq.Ft</p>
+              <p className="font-medium">{sqft}</p>
+            </div>
+            {type === 'plots' && (<div className="text-center">
+              <p className="text-muted-foreground text-xs mb-1">DTCP Approved</p>
+              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          approved ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                        }`}>
+                          {approved ? 'Approved' : 'Pending'}
+                        </span>
+            </div>)}
+            {type === 'plots' && ( <div className="text-center">
+              <p className="text-muted-foreground text-xs mb-1">Type</p>
+              <p className="font-medium">{type.charAt(0).toUpperCase() + type.slice(1)}</p>
+            </div>)}
           </div>
-          <div className="flex items-center text-gray-600">
-            <Maximize className="w-4 h-4 mr-2 text-housing-500" />
-            <span className="text-sm">{property.area}</span>
+
+          
+          <div className="mt-4 pt-4 border-t">
+            <Button variant="default" asChild className="w-full">
+              <Link to={`/property/${encodeURIComponent(title)}`}>Know More</Link>
+            </Button>
           </div>
         </div>
-        <Link to={`/property-enquiry/${property.id}`}>
-          <Button className="w-full bg-housing-600 hover:bg-housing-700 text-white">
-            Enquire Now
-          </Button>
-        </Link>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

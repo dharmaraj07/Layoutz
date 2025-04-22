@@ -1,116 +1,103 @@
-
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import PropertyCard from '@/components/PropertyCard';
 import { ChevronRight } from 'lucide-react';
-import PropertyCard from './PropertyCard';
-import { motion } from 'framer-motion';
-
-const properties = [
-  {
-    id: "1",
-    title: "Garden Villa Premium",
-    location: "Namakkal, Gurusamypalaiyam",
-    price: "2,00,00,000",
-    bedrooms: 8,
-    bathrooms: 10,
-    area: "3,600 sq ft",
-    type: "For Sale",
-    imageUrl: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2075&q=80"
-  },
-  {
-    id: "2",
-    title: "Garden Villa",
-    location: "Namakkal, Gurusamypalaiyam",
-    price: "80,00,000",
-    bedrooms: 2,
-    bathrooms: 3,
-    area: "3,600 sq ft",
-    type: "For Sale",
-    imageUrl: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-  },
-  {
-    id: '3',
-    title: 'Elegant Villa with Pool',
-    location: 'Beverly Hills, LA',
-    price: '$5,200,000',
-    bedrooms: 5,
-    bathrooms: 4,
-    area: '4,500 sq ft',
-    type: 'Villa',
-    imageUrl: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80',
-  },
-];
+import { Property } from '@/types/property';
+import { getProperties } from '@/services/propertyService';
+import { useScrollAnimation } from './lib/animations';
 
 const FeaturedProperties = () => {
-  const [viewportWidth, setViewportWidth] = useState<number>(window.innerWidth);
+  const [ref, isVisible] = useScrollAnimation(0.1);
+  const [properties, setProperties] = useState<Property[]>([]);
 
   useEffect(() => {
-    const handleResize = () => {
-      setViewportWidth(window.innerWidth);
+    // Fetch properties from localStorage
+    const fetchProperties = async () => {
+      const allProperties = await getProperties();
+      // Filter to show only featured properties or up to 5 properties if none are featured
+      const featuredProps = allProperties.filter(p => p.featured);
+      
+      if (featuredProps.length > 0) {
+        setProperties(featuredProps.slice(0, 5)); // Show up to 5 featured properties
+      } else {
+        setProperties(allProperties.slice(0, 5)); // Show up to 5 properties if none are featured
+      }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    fetchProperties();
+
+    // Add event listener to refresh properties when localStorage changes
+    const handleStorageChange = () => {
+      fetchProperties();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Custom event for when properties are updated via the Admin page
+    window.addEventListener('propertiesUpdated', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('propertiesUpdated', handleStorageChange);
+    };
   }, []);
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.19, 1, 0.22, 1] } },
-  };
-
   return (
-    <section className="py-20 px-4 md:px-8 bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
-          viewport={{ once: true, margin: '-100px' }}
-          className="flex flex-col md:flex-row md:items-end justify-between mb-12"
-        >
-          <div >
-            <span className="inline-block px-3 py-1 bg-housing-100 text-housing-800 text-xs uppercase tracking-wider rounded-full mb-4">
-              Featured Properties
-            </span>
-            <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gray-900">
-              Discover Our Premium Properties
-            </h2>
-            <p className="text-gray-600 max-w-3xl">
-              Explore our handpicked selection of premium properties in exclusive locations among our listing.
-            </p>
+    <section 
+      id="properties" 
+      className="py-20 md:py-28 bg-secondary/30"
+      ref={ref}
+    >
+      <div className="container px-4 md:px-6 ">
+        <div className={cn(
+          "flex flex-col md:flex-row justify-center  items-center md:items-end mb-12 transition-all duration-700 transform",
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        )}>
+          <div className='flex flex-col justify-center text-center items-center'>
+            <div className='flex flex-col items-center'>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 tracking-tight">Your Home. Your Dream. Your Choice</h2>
+            <h3 className="text-medium   mb-4 ">Choose your plot from India's Largest Real Estate Developer</h3></div>
           </div>
-          <a
-            href="/properties"
-            className="inline-flex items-center mt-6 md:mt-0 text-housing-700 font-medium hover:text-housing-800 transition-colors"
-          >
-            View All Properties
-            <ChevronRight className="ml-1 w-4 h-4" />
-          </a>
-        </motion.div>
 
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-100px' }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {properties.map((property) => (
-            <motion.div key={property.id} variants={item}>
-              <PropertyCard property={property} />
-            </motion.div>
-          ))}
-        </motion.div>
+        </div>
+        <div className='flex flex-col justify-end text-center items-end'>
+        <Button variant="outline" className="mt-6 md:mt-0 group" onClick={() => window.location.href = '/properties'}>
+            View All Properties
+            <ChevronRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </Button>
+          </div>
+        {properties.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {properties.map((property, index) => (
+              <PropertyCard
+                key={property._id}
+                {...property}
+                className={cn(
+                  "transition-all duration-700 transform",
+                  isVisible 
+                    ? "opacity-100 translate-y-0" 
+                    : "opacity-0 translate-y-16",
+                  // Stagger the animations
+                  isVisible && {
+                    'transition-delay-100': index === 0,
+                    'transition-delay-200': index === 1,
+                    'transition-delay-300': index === 2,
+                    'transition-delay-400': index === 3,
+                    'transition-delay-500': index === 4,
+                  }
+                )}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12 bg-background/50 rounded-lg border border-dashed">
+            <p className="text-muted-foreground">No properties available. Add some in the admin panel.</p>
+            <Button variant="outline" className="mt-4" onClick={() => window.location.href = '/admin'}>
+              Go to Admin Panel
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   );

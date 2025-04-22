@@ -1,12 +1,18 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, ChevronDown } from 'lucide-react';
+import { Menu, X, Phone, ChevronDown, Car } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/components/ui/use-toast';
 import logo from '../image/logo.png';  
-import { ScheduleVisitDialog } from './ScheduleVisitDialog';
+import connect from '../image/connect.png';  
+import {ScheduleVisitDialog} from './ScheduleVisitDialog';
+import carside from '@/image/carside.png'
+
+
+
+
 
 
 
@@ -16,19 +22,29 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { toast } = useToast();
   const location = useLocation();
+  const [isNavVisible, setIsNavVisible] = useState(true);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
+useEffect(() => {
+  let lastScrollY = window.scrollY;
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const handleScroll = () => {
+    const currentScrollY = window.scrollY;
+    setIsScrolled(currentScrollY > 50);
+
+    if (currentScrollY > lastScrollY) {
+      // scrolling down
+      setIsNavVisible(false);
+    } else {
+      // scrolling up
+      setIsNavVisible(true);
+    }
+
+    lastScrollY = currentScrollY;
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  return () => window.removeEventListener('scroll', handleScroll);
+}, []);
 
   const handleContactClick = () => {
     toast({
@@ -48,40 +64,45 @@ const NavBar = () => {
   };
 
   return (
-    <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out-expo py-4 px-5 md:px-8',
-        {
-          'bg-white/90 backdrop-blur-md shadow-sm': isScrolled,
-          'bg-white': !isScrolled,
-        }
-      )}
-    >
-      <nav className="max-w-7xl mx-auto flex items-center justify-between">
+      <header
+        className={cn(
+          'fixed top-10 left-0 right-0 z-50 transition-all duration-300 ease-out',
+                    isScrolled ? "backdrop shadow-sm " : "bg-transparent",
+                            isNavVisible? "translate-y-0 " : "-translate-y-full  "
+        
+        )}
+      >
+
+      <nav className={cn(" max-w-8xl mx-20 flex h-30 items-center justify-between p-4 bg-white border shadow-lg",
+        isNavVisible? "translate-y-0 " : "-translate-y-full  "
+            
+        )}> 
       
         <Link 
           to="/" 
-          className="relative z-10 text-2xl md:text-4xl flex font-heading font-bold text-housing-800 transition-all gap-3 hover:scale-105"
+          className="relative z-10 text-2xl md:text-4xl flex items-center font-heading font-bold text-housing-800 transition-all gap-3 hover:scale-105"
         >
+
           <img src={logo}  alt="L" className="w-10 h-10" />
-          <span className="inline-block transform transition-transform  duration-300">
-            Layoutz
+{/*           <img src={connect}  alt="L" className="w-4 h-2" /> */}
+          <span className="inline-block transform transition-transform -mx-2 font-heading duration-300">
+          Layoutz          
           </span>
         </Link>
         
-        <div className="hidden md:flex items-center space-x-1">
+        <div className="hidden md:flex items-center space-x-6 text-2xl font-medium">
           <NavItem href="/" label="Home" isActive={isActive('/')} />
           <NavItem href="/properties" label="Properties" isActive={isActive('/properties')} />
           <NavItem href="/investor" label="Investor" isActive={isActive('/investor')} />
-          <NavItem href="/visits" label="Visits" isActive={isActive('/visits')} />
-          <NavItem href="/enquiries" label="Enquiries" isActive={isActive('/enquiries')} />
           <NavItem href="/about" label="About" isActive={isActive('/about')} isDropdown={true} />
           <NavItem href="/contact" label="Contact" isActive={isActive('/contact')} />
+
+          
         </div>
 
         <div className="hidden md:flex items-center space-x-4">
           <a 
-            href="tel:+1234567890" 
+            href="tel:+91 7639302976" 
             className="flex items-center text-sm text-housing-800 hover:text-housing-600 transition-colors"
           >
             <Phone className="w-4 h-4 mr-2" />
@@ -89,6 +110,7 @@ const NavBar = () => {
           </a>
           <ScheduleVisitDialog />
         </div>
+        
 
         <button
           className="md:hidden relative z-10 text-housing-800"
@@ -101,7 +123,7 @@ const NavBar = () => {
         {/* Mobile menu */}
         <div
           className={cn(
-            'fixed inset-0 bg-white z-0 transform transition-transform duration-300 ease-in-out',
+            'fixed inset-0 bg-transparent z-0 transform transition-transform duration-300 ease-in-out',
             {
               'translate-x-0': isOpen,
               'translate-x-full': !isOpen,
@@ -140,12 +162,7 @@ const NavBar = () => {
               isActive={isActive('/contact')}
             />
             <div className="pt-8">
-              <Button
-                onClick={handleContactClick}
-                className="bg-housing-700 hover:bg-housing-800 text-white rounded-md px-6 py-3 transition-all duration-300"
-              >
-                Schedule Visit
-              </Button>
+            <ScheduleVisitDialog />
             </div>
           </div>
         </div>

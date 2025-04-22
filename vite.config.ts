@@ -8,6 +8,9 @@ export default defineConfig({
     host: "0.0.0.0", // Better compatibility
     port: 8080,
   },
+  optimizeDeps: {
+    exclude: ['react-icons']
+  },
   build: {
     outDir: "dist", // Ensure correct output directory
   },
@@ -17,4 +20,6 @@ export default defineConfig({
       "@": path.resolve(__dirname, "/src"),
     },
   },
+  
 });
+

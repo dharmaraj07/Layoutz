@@ -12,7 +12,7 @@ const Footer = () => {
               Layoutz<span className="text-housing-400"></span>
             </Link>
             <p className="text-gray-400 mb-6">
-              Providing exceptional real estate services and helping clients find their perfect properties since 2005.
+              Providing exceptional real estate services and helping clients find their perfect properties since 2015.
             </p>
             <div className="flex space-x-4">
               <SocialLink icon={<Facebook size={18} />} href="https://facebook.com" label="Facebook" />

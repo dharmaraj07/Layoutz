@@ -8,6 +8,7 @@ export default {
 		"./components/**/*.{ts,tsx}",
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
+		'./src/**/*.{js,ts,jsx,tsx,html}',
 	],
 	prefix: "",
 	theme: {
@@ -22,6 +23,9 @@ export default {
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],
 				heading: ['Playfair Display', 'serif'],
+				montserrat: ['Montserrat', 'sans-serif'],
+				transcity: ['Transcity', 'sans-serif'],
+				rekal: ['Rekal', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -111,6 +115,10 @@ export default {
 					'0%': { transform: 'scale(0.95)', opacity: '0' },
 					'100%': { transform: 'scale(1)', opacity: '1' },
 				},
+				'marquee-center': {
+					'0%': { transform: 'translateX(100%)' },
+					'100%': { transform: 'translateX(calc(50% - 50%))' }, // simulate center stop
+					},
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
@@ -119,6 +127,7 @@ export default {
 				'fade-up': 'fade-up 0.8s ease-out',
 				'slide-in': 'slide-in 0.5s ease-out',
 				'zoom-in': 'zoom-in 0.6s ease-out',
+				'marquee-center': 'marquee-center 5s ease-out forwards',
 			},
 			transitionTimingFunction: {
 				'in-expo': 'cubic-bezier(0.95, 0.05, 0.795, 0.035)',
@@ -127,4 +136,5 @@ export default {
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
+
 } satisfies Config;

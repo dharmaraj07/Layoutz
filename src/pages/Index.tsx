@@ -10,6 +10,8 @@ import TestimonialsSection from '@/components/TestimonialsSection';
 import CallToAction from '@/components/CallToAction';
 import Footer from '@/components/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
+import Marquee from '@/components/layout/marquee';
+import Header from '@/components/Header';
 
 const Index = () => {
   useEffect(() => {
@@ -18,20 +20,23 @@ const Index = () => {
 
   return (
     <AnimatePresence mode="wait">
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: .5}}
         className="min-h-screen flex flex-col"
       >
+
         <NavBar />
+        <Header />
         <main className="flex-grow">
           <HeroSection />
-          <FeaturedProperties />
-          <AboutSection />
           <AchievementsSection />
+          <FeaturedProperties />
           <TestimonialsSection />
+          <AboutSection />
           <CallToAction />
         </main>
         <Footer />

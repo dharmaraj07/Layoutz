@@ -1,141 +1,219 @@
+import React, { useState, useEffect } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent } from '@/components/ui/card';
+import { Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { useScrollAnimation } from './lib/animations';
+import { Customer } from '@/types/customer';
+import { useCust } from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from '@/components/ui/dialog';
 
-import { useState } from 'react';
-import { ArrowLeft, ArrowRight, Quote } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+const StarRating = ({ rating }: { rating: number }) => (
+  <div className="flex items-start justify-center text-center">
+{/*   <div>
+  <span className="text-sm font-medium text-black/50 text-gray-800 p-0">Rating: &nbsp; </span>
+  </div> */}
+  <div className="flex ">
+    {[...Array(5)].map((_, i) => (
+      <Star
+        key={i}
+        className={cn(
+          "h-6 w-5",
+          i < rating ? "text-amber-500 fill-amber-500 " : "text-gray-300 stroke-gray-300"
+        )}
+      />
+    ))}
+  </div>
+  </div>
+);
 
-const testimonials = [
-  {
-    id: 1,
-    name: 'Sarah Johnson',
-    role: 'Homeowner',
-    quote: 'GSquare Housing made our dream of owning a beachfront property a reality. Their knowledge of the market and personalized approach exceeded our expectations.',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1774&q=80',
-  },
-  {
-    id: 2,
-    name: 'Michael Chen',
-    role: 'Property Investor',
-    quote: 'The team at GSquare has consistently found me exceptional investment opportunities. Their insight into market trends and property values has been invaluable.',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80',
-  },
-  {
-    id: 3,
-    name: 'Emily Rodriguez',
-    role: 'First-time Buyer',
-    quote: 'As first-time homebuyers, we were nervous about the process. GSquare guided us every step of the way, making it smooth and stress-free. We couldn\'t be happier with our new home!',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1776&q=80',
-  },
-];
+const extractYouTubeID = (url: string): string | null => {
+  const match = url.match(
+    /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([\w-]{11})/
+  );
+  return match ? match[1] : null;
+};
 
 const TestimonialsSection = () => {
-  const [current, setCurrent] = useState(0);
+  const [sectionRef, isSectionVisible] = useScrollAnimation(0.1);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const { data: custData, isLoading, isError } = useCust();
+  const [selectedTestimonial, setSelectedTestimonial] = useState<Customer | null>(null);
+  const navigate = useNavigate();
 
-  const next = () => {
-    setCurrent((current + 1) % testimonials.length);
-  };
+  const itemsPerPage = 12;
+  const totalPages = Math.ceil(customers.length / itemsPerPage);
 
-  const prev = () => {
-    setCurrent((current - 1 + testimonials.length) % testimonials.length);
+  useEffect(() => {
+    if (isError) navigate('/admin/login');
+    else if (custData) setCustomers(custData);
+  }, [isError, custData, navigate]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % totalPages);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [totalPages]);
+
+  const displayedItems = customers.slice(
+    activeIndex * itemsPerPage,
+    (activeIndex + 1) * itemsPerPage
+  );
+
+  const handleCardClick = (testimonial: Customer) => {
+    setSelectedTestimonial(testimonial);
   };
 
   return (
-    <section className="py-20 px-4 md:px-8 bg-housing-50 relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-housing-100 rounded-full transform translate-x-1/3 -translate-y-1/3 opacity-70"></div>
-      <div className="absolute bottom-0 left-0 w-48 h-48 bg-housing-100 rounded-full transform -translate-x-1/3 translate-y-1/3 opacity-70"></div>
-
-      <div className="max-w-7xl mx-auto relative">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true, margin: '-100px' }}
-          className="text-center max-w-3xl mx-auto mb-16"
-        >
-          <span className="inline-block px-3 py-1 bg-housing-100 text-housing-800 text-xs uppercase tracking-wider rounded-full mb-4">
-            Testimonials
-          </span>
-          <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4 text-gray-900">
-            What Our Clients Say
+    <section id="testimonials" className="py-20 bg-[#f9f9f9]">
+      <div
+        ref={sectionRef}
+        className={cn(
+          "container px-4 md:px-6 transition-all duration-1000 transform",
+          isSectionVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+        )}
+      >
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-[#333] relative inline-block mb-2">
+            <span className="relative z-10">Trusted By Thousands of Happy Customers</span>
+            <span className="absolute bottom-0 left-0 h-[8px] w-full bg-[#FFC107]/30 -z-10"></span>
           </h2>
-          <p className="text-gray-600">
-            Discover why our clients choose Layoutz Housing for their real estate needs. 
-            Hear their experiences and success stories.
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Don't just take our word for it. Hear what our clients have to say about their experiences with Homescape.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="relative">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={current}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
-              transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
-              className="bg-white rounded-2xl shadow-xl p-8 md:p-12 light-glass"
+        <div className="relative max-w-6xl mx-auto">
+          <div className="overflow-hidden">
+            <div
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
             >
-              <div className="flex flex-col md:flex-row md:items-center gap-8 md:gap-12">
-                <div className="md:w-1/3">
-                  <div className="relative">
-                    <div className="w-20 h-20 md:w-32 md:h-32 rounded-full overflow-hidden border-4 border-white shadow-md">
-                      <img
-                        src={testimonials[current].image}
-                        alt={testimonials[current].name}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="absolute -bottom-4 -right-4 w-10 h-10 bg-housing-600 rounded-full flex items-center justify-center text-white">
-                      <Quote className="w-5 h-5" />
-                    </div>
-                  </div>
-                </div>
-                <div className="md:w-2/3">
-                  <blockquote className="text-xl md:text-2xl font-heading text-gray-800 mb-6">
-                    "{testimonials[current].quote}"
-                  </blockquote>
-                  <div className="flex items-center">
-                    <div>
-                      <div className="font-bold text-gray-900">{testimonials[current].name}</div>
-                      <div className="text-housing-600">{testimonials[current].role}</div>
-                    </div>
-                  </div>
-                </div>
+              <div className="min-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {displayedItems.map((item) => (
+                  <Card
+                    key={item._id}
+                    className="h-full border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden group cursor-pointer"
+                    onClick={() => handleCardClick(item)}
+                  >
+                    <CardContent className="p-0 flex flex-col h-full">
+                      <div className="bg-[#FFC107]/10 min-h-[180px] flex items-center justify-center p-0">
+                        {item.videolink ? (
+                          <iframe
+                            width="100%"
+                            height="100%"
+                            src={`https://www.youtube.com/embed/${extractYouTubeID(item.videolink)}?rel=0`}
+                            title="Property Video Tour"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            className="w-full h-40 rounded-md"
+                          ></iframe>
+                        ) : (
+                          <p className="text-sm text-gray-700 flex-grow min-h-[120px]">
+                            "{item.review}"
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="mt-auto bg-white p-6 border-t border-gray-100 flex items-center">
+                        <Avatar className="h-12 w-12 border-2 border-amber-500/20 mr-4">
+                          <AvatarImage src={item.img} alt={item.name} />
+                          <AvatarFallback>{item.name?.substring(0, 2)}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h3 className="font-medium text-foreground">{item.name}</h3>
+                          <p className="text-xs text-muted-foreground">{item.job}</p>
+                        </div>
+                        <div className="ml-auto">
+                          <StarRating rating={item.rating || 0} />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
-            </motion.div>
-          </AnimatePresence>
-
-          <div className="flex justify-center mt-8 space-x-4">
-            <button
-              onClick={prev}
-              className="w-10 h-10 rounded-full border border-housing-200 flex items-center justify-center text-housing-700 hover:bg-housing-100 transition-colors"
-              aria-label="Previous testimonial"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-            <div className="flex items-center space-x-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrent(index)}
-                  className={`w-2.5 h-2.5 rounded-full transition-all ${
-                    current === index
-                      ? 'bg-housing-600 scale-125'
-                      : 'bg-housing-300 hover:bg-housing-400'
-                  }`}
-                  aria-label={`Go to testimonial ${index + 1}`}
-                />
-              ))}
             </div>
-            <button
-              onClick={next}
-              className="w-10 h-10 rounded-full border border-housing-200 flex items-center justify-center text-housing-700 hover:bg-housing-100 transition-colors"
-              aria-label="Next testimonial"
-            >
-              <ArrowRight className="w-5 h-5" />
-            </button>
           </div>
+
+          <button
+            onClick={() => setActiveIndex((prev) => (prev - 1 + totalPages) % totalPages)}
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-6 bg-white shadow-md rounded-full p-2 hover:bg-gray-50 transition-colors z-10"
+            aria-label="Previous testimonials"
+          >
+            <ChevronLeft className="h-5 w-5 text-gray-600" />
+          </button>
+
+          <button
+            onClick={() => setActiveIndex((prev) => (prev + 1) % totalPages)}
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-6 bg-white shadow-md rounded-full p-2 hover:bg-gray-50 transition-colors z-10"
+            aria-label="Next testimonials"
+          >
+            <ChevronRight className="h-5 w-5 text-gray-600" />
+          </button>
         </div>
       </div>
+
+      {/* Popup Dialog */}
+      <Dialog open={!!selectedTestimonial} onOpenChange={() => setSelectedTestimonial(null)}>
+        <DialogContent className="max-w-2xl">
+          {selectedTestimonial && (
+            <>
+              <DialogHeader>
+                <div className="flex items-center gap-4">
+                  <Avatar className="h-12 w-12 border">
+                    <AvatarImage src={selectedTestimonial.img} alt={selectedTestimonial.name} />
+                    <AvatarFallback>{selectedTestimonial.name?.substring(0, 2)}</AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <DialogTitle>{selectedTestimonial.name}</DialogTitle>
+                    <DialogDescription>{selectedTestimonial.job}</DialogDescription>
+                  </div>
+                </div>
+              </DialogHeader>
+
+              <div className="my-4">
+                {selectedTestimonial.videolink ? (
+                  <iframe
+                    width="100%"
+                    height="315"
+                    src={`https://www.youtube.com/embed/${extractYouTubeID(
+                      selectedTestimonial.videolink
+                    )}?rel=0`}
+                    title="Testimonial Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="rounded-md"
+                  ></iframe>
+                ) : (
+                  <p className="text-gray-700 text-base">
+                    "{selectedTestimonial.review}"
+                  </p>
+                )}
+              </div>
+
+              <div className="flex justify-between items-center mt-4">
+
+                <StarRating rating={selectedTestimonial.rating || 0} />
+                <DialogClose asChild>
+                  <button className="text-sm px-4 py-2 bg-amber-500 text-white rounded hover:bg-amber-600">
+                    Close
+                  </button>
+                </DialogClose>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
