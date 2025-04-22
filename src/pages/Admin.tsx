@@ -725,7 +725,7 @@ const { mutate: logout} = useMutation({
                         onClick={() => {
                           setCurrentProperty(prev => ({
                             ...prev,
-                            higlight: prev.highlight.filter((_, i) => i !== idx),
+                            highlight: prev.highlight.filter((_, i) => i !== idx),
                           }));
                         }}
                       >

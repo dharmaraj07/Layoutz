@@ -12,9 +12,6 @@ export default defineConfig({
     exclude: ['react-icons']
   },
   build: {
-    rollupOptions: {
-      external: ['react'],
-    },
     outDir: "dist", // Ensure correct output directory
   },
   plugins: [react()],

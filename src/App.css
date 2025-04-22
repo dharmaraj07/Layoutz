@@ -55,9 +55,3 @@
   animation: marquee 15s linear infinite;
 }
 
-@font-face {
-  font-family: 'Transcity';
-  src: url('/public/font/transcity.regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-}
