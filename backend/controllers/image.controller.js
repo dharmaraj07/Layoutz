@@ -45,7 +45,7 @@ export const getHero = async (req, res) => {
     try {
       const { id } = req.params;
   
-      const deleteHero = await Props.findByIdAndDelete(id);
+      const deleteHero = await Hero.findByIdAndDelete(id);
   
       if (!deleteHero) {
         return res.status(404).json({ error: 'Images not found' });
