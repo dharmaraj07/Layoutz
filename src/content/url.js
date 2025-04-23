@@ -1,1 +1,1 @@
-export const baseURL = "http://localhost:5000"
+export const baseURL = "https://layoutz-6.onrender.com"
