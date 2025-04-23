@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, Pencil, Trash2, Image, LogOut, X } from 'lucide-react';
+import { ArrowLeft, Plus, Pencil, Trash2, Image, LogOut, X, Check } from 'lucide-react';
 import { Property } from '@/types/property';
 import { getProperties, updateProperty, addProperty,deleteProperty, fetchAuthUser,logoutuser } from '@/services/propertyService';
 import { Button } from '@/components/ui/button';
@@ -89,7 +89,8 @@ const Admin = () => {
   const [newTransit, setNewTransit] = useState('');
   const [newHospital, setNewHospital] = useState('');
   const [newRestaurant, setNewRestaurant] = useState('');
-
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [editingText, setEditingText] = useState('');
 
  
 
@@ -696,45 +697,133 @@ const { mutate: logout} = useMutation({
                     <Button
                       type="button"
                       onClick={() => {
-                          if (newHighlight.trim()) {
-                            setCurrentProperty(prev => {
-                              const updatedHighlight = new Set([...(prev.highlight || []), newHighlight.trim()]);
-                              return {
-                                      ...prev,
-                                      highlight: Array.from(updatedHighlight),
-                                    };
-                                  });
-                            setNewHighlight('');
-                          }
-                        }}
+                        if (newHighlight.trim()) {
+                          setCurrentProperty(prev => {
+                            const updatedHighlight = new Set([...(prev.highlight || []), newHighlight.trim()]);
+                            return {
+                              ...prev,
+                              highlight: Array.from(updatedHighlight),
+                            };
+                          });
+                          setNewHighlight('');
+                        }
+                      }}
                     >
                       Add
                     </Button>
                   </div>
+
                   <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700">
-                    {(currentProperty.highlight || []).map((highlight, idx) => (
+                    {(currentProperty.highlight || []).map((highlight, idx, arr) => (
                       <div
-                      key={idx}
-                      className="flex items-center justify-between bg-muted px-3 py-1 rounded text-sm"
-                    >
-                      <span>{highlight}</span>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => {
-                          setCurrentProperty(prev => ({
-                            ...prev,
-                            highlight: prev.highlight.filter((_, i) => i !== idx),
-                          }));
-                        }}
+                        key={idx}
+                        className="flex items-center justify-between bg-muted px-3 py-1 rounded text-sm"
                       >
-                        <Trash2 className="w-4 h-4 text-red-500" />
-                      </Button>
-                    </div>
+                        {editingIndex === idx ? (
+                          <input
+                            className="bg-white px-2 py-1 text-sm rounded border"
+                            value={editingText}
+                            onChange={(e) => setEditingText(e.target.value)}
+                          />
+                        ) : (
+                          <span>{highlight}</span>
+                        )}
+
+                        <div className="flex items-center gap-1">
+                          {editingIndex === idx ? (
+                            <>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => {
+                                  setCurrentProperty(prev => {
+                                    const updated = [...(prev.highlight || [])];
+                                    updated[idx] = editingText.trim();
+                                    return { ...prev, highlight: updated };
+                                  });
+                                  setEditingIndex(null);
+                                  setEditingText('');
+                                }}
+                              >
+                                <Check className="w-4 h-4 text-green-600" />
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => {
+                                  setEditingIndex(null);
+                                  setEditingText('');
+                                }}
+                              >
+                                <X className="w-4 h-4 text-gray-500" />
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => {
+                                  setEditingIndex(idx);
+                                  setEditingText(highlight);
+                                }}
+                              >
+                                <Pencil className="w-4 h-4 text-blue-500" />
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                disabled={idx === 0}
+                                onClick={() => {
+                                  setCurrentProperty(prev => {
+                                    const updated = [...(prev.highlight || [])];
+                                    [updated[idx - 1], updated[idx]] = [updated[idx], updated[idx - 1]];
+                                    return { ...prev, highlight: updated };
+                                  });
+                                }}
+                              >
+                                <span className="text-xs">↑</span>
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                disabled={idx === arr.length - 1}
+                                onClick={() => {
+                                  setCurrentProperty(prev => {
+                                    const updated = [...(prev.highlight || [])];
+                                    [updated[idx], updated[idx + 1]] = [updated[idx + 1], updated[idx]];
+                                    return { ...prev, highlight: updated };
+                                  });
+                                }}
+                              >
+                                <span className="text-xs">↓</span>
+                              </Button>
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => {
+                                  setCurrentProperty(prev => ({
+                                    ...prev,
+                                    highlight: prev.highlight.filter((_, i) => i !== idx),
+                                  }));
+                                }}
+                              >
+                                <Trash2 className="w-4 h-4 text-red-500" />
+                              </Button>
+                            </>
+                          )}
+                        </div>
+                      </div>
                     ))}
                   </ul>
                 </div>
+
                 {/* School */}
                 <div className="col-span-2">
                   <Label htmlFor="school">Schools</Label>

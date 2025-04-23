@@ -89,7 +89,7 @@ const TestimonialsSection = () => {
             <span className="absolute bottom-0 left-0 h-[8px] w-full bg-[#FFC107]/30 -z-10"></span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Don't just take our word for it. Hear what our clients have to say about their experiences with Homescape.
+            Don't just take our word for it. Hear what our clients have to say about their experiences with D Layoutz.
           </p>
         </div>
 
@@ -119,7 +119,7 @@ const TestimonialsSection = () => {
                             className="w-full h-40 rounded-md"
                           ></iframe>
                         ) : (
-                          <p className="text-sm text-gray-700 flex-grow min-h-[120px]">
+                          <p className="text-sm p-6 text-gray-700 flex-grow min-h-[120px]">
                             "{item.review}"
                           </p>
                         )}

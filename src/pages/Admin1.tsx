@@ -47,7 +47,7 @@ const Admin = () => {
   const [currentProperty, setCurrentProperty] = useState<Partial<Property>>({
     title: '',
     location: '',
-    price: '',
+    price: 0,
     beds: 0,
     baths: 0,
     sqft: 0,
@@ -104,7 +104,7 @@ useEffect(() => {
     setCurrentProperty({
       title: '',
       location: '',
-      price: '',
+      price: 0,
       beds: 0,
       baths: 0,
       sqft: 0,

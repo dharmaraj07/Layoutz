@@ -19,6 +19,7 @@ const PropertyCard = ({
   title,
   location,
   price,
+  plotElitePrice,
   beds,
   baths,
   sqft,
@@ -62,15 +63,15 @@ const PropertyCard = ({
           )}
 
 
-          <Badge className={cn(
+{/*           <Badge className={cn(
             "absolute top-4 left-1/2 transform -translate-x-1/2", 
             residential ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"
           )}>
             {residential ? 'Residential' : 'Commercial'}
-          </Badge>
+          </Badge> */}
 
 
-
+{/* 
           {type === 'plots' && (<Badge className={cn(
             "absolute top-4 right-4", 
             forSale ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"
@@ -82,7 +83,7 @@ const PropertyCard = ({
             forSale ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"
           )}>
             {forSale ? 'For Sale' : 'For Rent'}
-          </Badge>)}
+          </Badge>)} */}
         </div>
         <div className="p-5">
           <div className="flex items-start justify-between">
@@ -93,14 +94,14 @@ const PropertyCard = ({
                 <span>{location}</span>
               </div>
               <div className="text-medium text-muted-foreground capitalize mb-3">
-                {type}
+                {type == 'plots' ? "Residential Plots" : "Commercial Plots"}
               </div>
               
             </div>
  
             <div className="flex items-center gap-1">
                <span className="text-large text-gray-500 font-medium">From ₹</span>
-                <span className="text-large font-medium">{price}</span>
+                <span className="text-large font-medium">{plotElitePrice}</span>
             </div>
           </div>
           
@@ -117,7 +118,7 @@ const PropertyCard = ({
             </div> </>)}
             <div className="text-center">
               <p className="text-muted-foreground text-xs mb-1">Sq.Ft</p>
-              <p className="font-medium">{sqft}</p>
+              <p className="font-medium">{sqft} Sq.ft</p>
             </div>
             {type === 'plots' && (<div className="text-center">
               <p className="text-muted-foreground text-xs mb-1">DTCP Approved</p>
