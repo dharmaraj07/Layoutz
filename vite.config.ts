@@ -8,19 +8,16 @@ export default defineConfig({
     host: "0.0.0.0", // Better compatibility
     port: 8080,
   },
-  optimizeDeps: {
-    exclude: ['react-icons']
-  },
   build: {
-    rollupOptions: {
-      external: ['react']
-    },
+
     outDir: "dist", // Ensure correct output directory
   },
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "/src"),
+      "@": path.resolve(__dirname, "src"),
+      react: path.resolve(__dirname, "node_modules/react"),
+      "react-dom": path.resolve(__dirname, "node_modules/react-dom"), // ✅ Correct
     },
   },
   

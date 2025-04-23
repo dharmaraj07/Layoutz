@@ -8,17 +8,19 @@ import connectDB from './db/connectDB.js';
 import visitRoute from './routes/visit.route.js';
 import enqRoute from './routes/enq.route.js';
 import imageRoute from './routes/image.route.js';
-import cors from 'cors'
+import cors from 'cors';
+import path from "path";
 
 
 
 dotenv.config();
 const app = express();
 const port = process.env.PORT;
+const __dirname = path.resolve();
 
 
 app.use(cors({
-  origin: "https://layoutz.in",
+  origin: "http://localhost:8080",
   credentials:true
 
 }))
@@ -38,7 +40,11 @@ app.use('/api/visit', visitRoute)
 app.use('/api/enq', enqRoute)
 app.use('/api/hero', imageRoute)
 
-
+if (process.env.NODE_ENV === "production")
+  app.use(express.static(path.join(__dirname,"dist")))
+  app.use("*",(req,res)=>{
+    res.sendFile(path.resolve(__dirname,"dist","index.html"))
+  })
 
 
 
