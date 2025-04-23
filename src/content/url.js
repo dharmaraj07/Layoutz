@@ -1,1 +1,1 @@
-export const baseURL = "https://layoutz-6.onrender.com"
+export const baseURL = "https://layoutz.in"
