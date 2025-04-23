@@ -13,7 +13,8 @@
     "predeploy": "vite build",
     "deploy": "gh-pages -d dist",
     "n": "nodemon backend/server.js",
-    "start": "node backend/server.js"
+    "start": "node backend/server.js",
+    "start:all": "concurrently \"npm run dev\" \"npm run n\""  
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -97,6 +98,7 @@
     "@types/react-dom": "^18.3.6",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.2",
     "eslint": "^9.9.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",

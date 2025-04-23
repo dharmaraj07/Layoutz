@@ -5,6 +5,9 @@ import path from "path";
 export default defineConfig({
   base: "/", // 👈 Correct for GitHub Pages
   server: {
+    proxy: {
+      '/api': 'http://localhost:5000',  // Proxy requests to the backend
+    },
     host: "0.0.0.0", // Better compatibility
     port: 8080,
   },
