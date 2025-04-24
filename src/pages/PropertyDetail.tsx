@@ -169,55 +169,61 @@ const toggleCategory = (category: string) => {
       <Navbar />
       <Header />
       <PropertyHeroSection/>
-      <div className="absolute left-1/2 transform -translate-x-1/2 -bottom-20 z-40 w-full px-4">
-    <div className="bg-housing-700 rounded-xl shadow-lg max-w-7xl mx-auto py-6 px-4">
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 text-center text-white">
-        {/* Item */}
-        
+       {/* Container for Item Section */}
+  <div className="relative px-4 sm:px-6 md:px-8 mt-4 sm:mt-6 md:-mt-10 lg:-mt-12">
+    {/* This ensures grid is stacked vertically on mobile and flexed on larger screens */}
+    <div className="bg-housing-700 rounded-xl shadow-lg max-w-7xl mx-auto py-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center text-white">
+        {/* Item 1 */}
         <div>
-          
-          <img src={config} className="mx-auto mb-2 h-10" alt="Configurations" />
-          <p className="font-bold mb-1">Configurations</p>
-          <p className="text-sm">{property.residential ? "Residential Plots":"Commercial Plots"}</p>
+          <img src={config} className="mx-auto mb-2 h-8 sm:h-10" alt="Configurations" />
+          <p className="font-bold mb-1 text-sm sm:text-base">Configurations</p>
+          <p className="text-xs sm:text-sm">{property.residential ? "Residential Plots" : "Commercial Plots"}</p>
         </div>
 
+        {/* Item 2 */}
         <div>
-          <img src={area} className="mx-auto mb-2 h-10" alt="Area" />
-          <p className="font-bold mb-1">Area</p>
-          <p className="text-sm">{property.projectArea} Acres</p>
+          <img src={area} className="mx-auto mb-2 h-8 sm:h-10" alt="Area" />
+          <p className="font-bold mb-1 text-sm sm:text-base">Area</p>
+          <p className="text-xs sm:text-sm">{property.projectArea} Acres</p>
         </div>
 
+        {/* Item 3 */}
         <div>
-          <img src={unit} className="mx-auto mb-2 h-10" alt="Units" />
-          <p className="font-bold mb-1">No of Units</p>
-          <p className="text-sm">{property.totalPlots}  Units</p>
+          <img src={unit} className="mx-auto mb-2 h-8 sm:h-10" alt="Units" />
+          <p className="font-bold mb-1 text-sm sm:text-base">No of Units</p>
+          <p className="text-xs sm:text-sm">{property.totalPlots} Units</p>
         </div>
 
+        {/* Item 4 */}
         <div>
-          <img src={rera} className="mx-auto mb-2 h-10" alt="RERA ID" />
-          <p className="font-bold mb-1">RERA ID</p>
-          <p className="text-sm">NA*</p>
+          <img src={rera} className="mx-auto mb-2 h-8 sm:h-10" alt="RERA ID" />
+          <p className="font-bold mb-1 text-sm sm:text-base">RERA ID</p>
+          <p className="text-xs sm:text-sm">NA*</p>
         </div>
 
+        {/* Item 5 */}
         <div>
-          <img src={size} className="mx-auto mb-2 h-10" alt="Size" />
-          <p className="font-bold mb-1">Available Size</p>
-          <p className="text-sm">{property.sqft} Sq.Ft Onwards</p>
+          <img src={size} className="mx-auto mb-2 h-8 sm:h-10" alt="Size" />
+          <p className="font-bold mb-1 text-sm sm:text-base">Available Size</p>
+          <p className="text-xs sm:text-sm">{property.sqft} Sq.Ft Onwards</p>
         </div>
 
+        {/* Item 6 */}
         <div>
-          <img src={price} className="mx-auto mb-2 h-10" alt="Price" />
-          <p className="font-bold mb-1">Plot Price</p>
-          <p className="text-sm">Rs {(property.sqft * property.plotElitePrice/100000).toLocaleString()} Lakhs Onwards*</p>
+          <img src={price} className="mx-auto mb-2 h-8 sm:h-10" alt="Price" />
+          <p className="font-bold mb-1 text-sm sm:text-base">Plot Price</p>
+          <p className="text-xs sm:text-sm">Rs {(property.sqft * property.plotElitePrice / 100000).toLocaleString()} Lakhs Onwards*</p>
         </div>
       </div>
 
-      {/* Disclaimer */}
-      <p className="text-white text-sm mt-4 pl-4">
+      {/* Disclaimer Section */}
+      <p className="text-white text-xs sm:text-sm mt-4 pl-2 sm:pl-4 leading-snug">
         <span className="font-semibold">NA*</span> - This project was approved before the implementation of the RERA act. Hence, RERA registration is not applicable.
       </p>
     </div>
   </div>
+
       <main className="flex-grow pt-20">
         {/* Breadcrumb */}
         <div className="container px-4 py-4">
@@ -289,26 +295,45 @@ const toggleCategory = (category: string) => {
                 </p>
               </div>  
 
-              {/* Mobile Table */}
-              <div className="lg:hidden w-full max-w-md mx-auto bg-housing-700 p-4 rounded shadow">
-                <ul className="space-y-4 text-sm">
-                  <li className="flex justify-between font-semibold border-b pb-1">
-                    <span>Type</span>
-                    <span>Plot Size</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span>{property.residential ? "Residential Plots":"Commercial Plots"}</span>
-                    <span>{property.sqft} Sq.ft Onwards</span>
-                  </li>
-                  <li className="flex justify-between font-semibold border-b pt-4 pb-1">
-                    <span>Rate Per Sq.Ft</span>
+             {/* Mobile Table - optimized for small screens */}
+              <div className="block lg:hidden w-full max-w-md mx-auto bg-housing-700 p-4 rounded shadow text-white text-sm space-y-4">
+                {/* Type */}
+                <div className="flex justify-between border-b border-white/20 pb-2">
+                  <span className="font-medium">Type</span>
+                  <span>{property.residential ? "Residential Plots" : "Commercial Plots"}</span>
+                </div>
+
+                {/* Plot Size */}
+                <div className="flex justify-between border-b border-white/20 pb-2">
+                  <span className="font-medium">Plot Size</span>
+                  <span>{property.sqft} Sq.ft Onwards</span>
+                </div>
+
+                {/* Elite Plot Pricing */}
+                <div className="pt-2">
+                  <p className="text-xs font-semibold text-white/80 mb-2">Plots - Elite</p>
+                  <div className="flex justify-between">
+                    <span>Rate/Sq.Ft</span>
+                    <span>Rs {property.plotElitePrice}</span>
+                  </div>
+                  <div className="flex justify-between">
                     <span>Price</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span>{property.price} /Sq.ft</span>
-                    <span>Rs {(property.sqft * property.price/100000).toLocaleString()} Lakhs Onwards*</span>
-                  </li>
-                </ul>
+                    <span>Rs {(property.sqft * property.plotElitePrice / 100000).toLocaleString()} Lakhs Onwards*</span>
+                  </div>
+                </div>
+
+                {/* Premium Plot Pricing */}
+                <div className="pt-2">
+                  <p className="text-xs font-semibold text-white/80 mb-2">Plots - Premium</p>
+                  <div className="flex justify-between">
+                    <span>Rate/Sq.Ft</span>
+                    <span>Rs {property.plotPremiumPrice}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Price</span>
+                    <span>Rs {(property.sqft * property.plotPremiumPrice / 100000).toLocaleString()} Lakhs Onwards*</span>
+                  </div>
+                </div>
               </div>
 
               {/* Desktop Table */}
@@ -340,7 +365,7 @@ const toggleCategory = (category: string) => {
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold uppercase text-housing-700">Gallery</h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-4 ">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 ">
         <div className="flex flex-row justify-center  gap-6">
           {property.propimage.slice(0, 10).map((img, index) => (
             <div
@@ -487,56 +512,64 @@ const toggleCategory = (category: string) => {
               </div>
             </div>  
               
-              <div className="bg-muted rounded-lg  mb-6 mt-6 border ">
-              <h3 className="text-2xl text-left   text-center mb-4 mt-4 ml-6 font-semibold">LIFE AROUND {property.title}</h3>
-              <div className="grid [grid-template-columns:2fr_1fr] ml-6 gap-2 ">
-              <div className="min-width-10">
-                <iframe
-                  src={property.mapSrc}
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen={true}
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Property Location Map"
-                ></iframe>
+            <div className="bg-muted rounded-lg mb-6 mt-6 border">
+  <h3 className="text-2xl text-center mb-4 mt-4 font-semibold">
+    LIFE AROUND {property.title}
+  </h3>
+
+  {/* Grid container with responsive column and order */}
+  <div className="grid grid-cols-1 lg:[grid-template-columns:2fr_1fr] gap-4 px-4 lg:px-6">
+
+    {/* Landmarks Section (appears first on mobile) */}
+    <div className="order-1 lg:order-2">
+      <h4 className="font-bold mb-4 text-lg text-center">Nearby Landmarks</h4>
+      <ul className="space-y-4">
+        {Object.entries(categorizedLandmarks).map(([category, items]) => (
+          <li
+            key={category}
+            className="bg-black/30 border border-muted p-4 rounded-lg shadow-sm transition hover:shadow-md font-bold"
+          >
+            <button
+              onClick={() => toggleCategory(category)}
+              className="flex items-center justify-between w-full text-left font-bold"
+            >
+              <div className="flex items-center gap-3">
+                {iconsMap[category as keyof typeof iconsMap]}
+                <span className="font-medium text-base">{category}</span>
               </div>
-              
-              <div className="mt-0 ml-6 mb-4 mr-4">
-                <h4 className="font-bold mb-4 text-lg text-center">Nearby Landmarks</h4>
-                <ul className="space-y-4">
-                  {Object.entries(categorizedLandmarks).map(([category, items]) => (
-                    <li
-                      key={category}
-                      className="bg-black/30 border border-muted p-4 rounded-lg shadow-sm transition hover:shadow-md font-bold"
-                    >
-                      <button
-                        onClick={() => toggleCategory(category)}
-                        className="flex items-center justify-between w-full text-left font-bold"
-                      >
-                        <div className="flex items-center gap-3">
-                          {iconsMap[category as keyof typeof iconsMap]}
-                          <span className="font-medium text-base">{category}</span>
-                        </div>
-                        {openCategory === category ? (
-                          <Minus className="h-4 w-4 text-muted-foreground" />
-                        ) : (
-                          <Plus className="h-4 w-4 text-muted-foreground" />
-                        )}
-                      </button>
-                      {openCategory === category && (
-                        <ul className="mt-3 ml-1 text-medium text-black-foreground space-y-1 list-disc list-inside">
-                          {items.map((item, idx) => (
-                            <li key={idx}>{item}</li>
-                          ))}
-                        </ul>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              </div>
+              {openCategory === category ? (
+                <Minus className="h-4 w-4 text-muted-foreground" />
+              ) : (
+                <Plus className="h-4 w-4 text-muted-foreground" />
+              )}
+            </button>
+            {openCategory === category && (
+              <ul className="mt-3 ml-1 text-medium text-black-foreground space-y-1 list-disc list-inside">
+                {items.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    {/* Map Section */}
+    <div className="order-2 lg:order-1">
+      <iframe
+        src={property.mapSrc}
+        width="100%"
+        height="100%"
+        style={{ border: 0, minHeight: "350px" }}
+        allowFullScreen={true}
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        title="Property Location Map"
+      ></iframe>
+    </div>
+  </div>
+
               </div>
               
     </div>

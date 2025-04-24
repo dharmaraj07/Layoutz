@@ -28,9 +28,8 @@ const Visits = () => {
   const [currentVisit, setCurrentVisit] = useState<Partial<Visit>>({
     name:'',
     phone:'',
-    type: 'Pending',
     property: '',
-    people:'',
+    people:0,
     visitDate: new Date(),
     status: 'Pending',
     createdAt: new Date()
@@ -52,6 +51,8 @@ const Visits = () => {
     return matchesSearch && matchesDateRange;
   });
 
+
+
   const clearDateFilter = () => setDateRange(undefined);
 
   const handleEditChange = (field: keyof Visit, value: string) => {
@@ -69,7 +70,7 @@ const Visits = () => {
     console.log('Saving visit', currentVisit);
     setEditDialogOpen(false);
   };
-
+  console.log(filteredVisits)
   return (
     <div className="min-h-screen flex flex-col">
       <NavBarAdmin />
@@ -172,7 +173,6 @@ const Visits = () => {
                       <TableCell>{visit.phone}</TableCell>
                       <TableCell> {visit.visitDate ? format(new Date(visit.visitDate), 'PPP') : '—'}</TableCell>
                       <TableCell>{visit.people}</TableCell>
-                      <TableCell>{visit.type}</TableCell>
                       <TableCell>{visit.name}</TableCell>
                       <TableCell>{visit.createdAt ? format(new Date(visit.createdAt), 'PPP') : '—'}</TableCell>
                       <TableCell>{visit.status}</TableCell>

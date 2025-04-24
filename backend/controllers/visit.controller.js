@@ -7,7 +7,7 @@ export const visit = async (req, res) => {
       name,
       phone,
       property,
-      visitdate,
+      visitDate,
       people ,
       status
     
@@ -22,7 +22,7 @@ export const visit = async (req, res) => {
       name,
       phone,
       property,
-      visitdate,
+      visitDate,
       people ,
       status
     });

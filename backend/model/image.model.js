@@ -6,7 +6,7 @@ const HeroSchema = new mongoose.Schema({
   image: { type: Array,  default: "" },
   mobileImage: { type: Array,  default: "" },
   type: { type: String, enum: ['main', 'investment'], required: true },
-  link:{ type: String, required: true },
+  link:{ type: String, required: false },
   createdAt:{type:Date, default:() => Date.now(), immutable:true},
   updatedAt:{type:Date, default:() => Date.now()}
 }); 

@@ -104,7 +104,7 @@ const Enquiries = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      if (!currentHero.title || !currentHero.image || !currentHero.link) {
+      if (!currentHero.title || !currentHero.image ) {
         toast({
           title: "Required fields missing",
           description: "Please fill in all required fields.",

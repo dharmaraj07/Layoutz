@@ -118,60 +118,71 @@ const Investor = () => {
       
       <main className="flex-grow pb-16">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-l text-white py-20">
+        <section className="py-16 bg-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="flex flex-col lg:flex-row gap-8 items-center">
+      
+      {/* Image */}
+      <div className="w-full lg:w-1/2">
+        <img 
+          src={propertymoney}
+          alt="Investment Banner" 
+          className="w-full h-auto rounded-lg shadow-lg object-cover"
+        />
+      </div>
 
-          <div className="max-w-8xl mx-20 px-4 sm:px-6 lg:px-8 flex gap-8 text-black">
-          <img 
-            src={propertymoney}
-            alt="Investment Banner" 
-            className="w-50 h-auto rounded-lg shadow-lg"
-          />
-            <div className="md:w-2/3 text-black">
+      {/* Text & Step Cards */}
+      <div className="w-full lg:w-1/2">
+        {/* Heading */}
+        <div className="mb-8 text-center lg:text-left">
+          <h2 className="text-3xl md:text-4xl font-heading font-bold text-housing-800 mb-4">
+            Investment Process
+          </h2>
+          <p className="text-gray-600">
+            At Layoutz, we offer a unique Buy-Back Plan designed to provide you with flexible investment options and peace of mind. Whether you wish to retain your property, sell it back, or share the profits, our plan caters to your individual preferences.
+          </p>
+        </div>
 
-              <h1 className="text-3xl md:text-3xl font-heading font-bold mb-6">
-                   Investment Process
-
-              </h1>
-              <p className="text-lg md:text-xl mb-8 ">
-              Secure Your Future with Layoutz’s Buy-Back Plan
-              </p>
-              <p className="text-lg md:text-xl mb-8 ">
-              At Layoutz, we offer a unique Buy-Back Plan designed to provide you with flexible investment options and peace of mind. Whether you wish to retain your property, sell it back, or share the profits, our plan caters to your individual preferences.
-              </p>
-              {/* Investment Process Steps */}
-              <section className="py-4 bg-transparent">
-                <div className="max-w-6xl mx-auto px-4">
-                  <div className="grid md:grid-cols-2 gap-8">
-                    {/* Row 1 */}
-                    <div>
-                      
-                      
-                      <h3 className="font-bold text-2xl mb-4 flex items-center text-housing-700"> <HandCoins className='w-10 h-10'/> &nbsp; Minimum Investment</h3>
-                      <p className=" text-xl">Start with an investment of
-                      ₹1 crores.</p>
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-2xl mb-4 flex items-center text-housing-700"> <CalendarRange className='w-10 h-10'/> &nbsp; Agreement Duration</h3>
-                      <p className=" text-xl">Enter into a 2-year agreement
-                      with us.</p>
-                    </div>
-
-                    {/* Row 2 */}
-                    <div >
-                      <h3 className="font-bold text-2xl mb-4 flex items-center text-housing-700"><ClipboardPenLine className='w-10 h-10'/>&nbsp; Comprehensive Agreements</h3>
-                      <p className=" text-xl">We provide both a sale agreement and a buy-back agreement for transparency and security.</p>
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-2xl mb-4 flex items-center text-housing-700"><LandPlot className='w-10 h-10'/> &nbsp;Land/Plot Selection</h3>
-                      <p className=" text-xl">The selection can be decided by either the developer or the buyer.</p>
-                    </div>
-                  </div>
+        {/* Step Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {[
+            {
+              icon: <HandCoins className="w-10 h-10 text-housing-600 mb-3" />,
+              title: "Minimum Investment",
+              description: "Start with an investment of ₹1 crore."
+            },
+            {
+              icon: <CalendarRange className="w-10 h-10 text-housing-600 mb-3" />,
+              title: "Agreement Duration",
+              description: "Enter into a 2-year agreement with us."
+            },
+            {
+              icon: <ClipboardPenLine className="w-10 h-10 text-housing-600 mb-3" />,
+              title: "Comprehensive Agreements",
+              description: "We provide both a sale agreement and a buy-back agreement for transparency and security."
+            },
+            {
+              icon: <LandPlot className="w-10 h-10 text-housing-600 mb-3" />,
+              title: "Land/Plot Selection",
+              description: "The selection can be decided by either the developer or the buyer."
+            }
+          ].map((step, index) => (
+            <div key={index} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div className="flex items-start gap-3">
+                {step.icon}
+                <div>
+                  <h3 className="text-lg font-semibold text-housing-800">{step.title}</h3>
+                  <p className="text-gray-600 text-sm">{step.description}</p>
                 </div>
-              </section>
+              </div>
             </div>
-          </div>
-          <div className="absolute bottom-0 right-0 w-full h-20 bg-white" style={{ clipPath: 'polygon(0 100%, 100% 0, 100% 100%)' }}></div>
-        </section>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
         {/* Why Plots are Better Investment */}
         <section className="py-16 bg-gray-50">
@@ -543,7 +554,7 @@ const Investor = () => {
         </section>
 
         {/* Testimonials */}
-        <section className="py-16 bg-housing-800 text-white">
+{/*         <section className="py-16 bg-housing-800 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
@@ -587,10 +598,10 @@ const Investor = () => {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* CTA Section */}
-        <section className="py-16">
+        <section className="py-16 bg-black/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-gradient-to-r from-housing-600 to-housing-800 rounded-lg p-8 md:p-12 shadow-xl text-white text-center">
               <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">

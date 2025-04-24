@@ -1,19 +1,9 @@
 
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, ChevronDown, Car } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/components/ui/use-toast';
-import logo from '../image/logo.png';  
-import connect from '../image/connect.png';  
-import {ScheduleVisitDialog} from './ScheduleVisitDialog';
-import carside from '@/image/carside.png'
-
-
-
-
-
 
 
 
@@ -23,6 +13,16 @@ const Header = () => {
   const { toast } = useToast();
   const location = useLocation();
   const [isNavVisible, setIsNavVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
 useEffect(() => {
   let lastScrollY = window.scrollY;
@@ -64,25 +64,41 @@ useEffect(() => {
   };
 
   return (
-      <header
+<header
+  className={cn(
+    'fixed top-0 left-0 right-0 z-50',
+    isScrolled ? 'backdrop shadow-sm' : 'bg-white',
+    isMobile ? '' : 'transition-all duration-300 ease-out' // disable transition on mobile
+  )}
+>
+  <div className="relative overflow-hidden bg-housing-700 mb-0 mt-0 z-10">
+    <div
+      className={cn(
+        'flex gap-[10px] items-center',
+        isMobile ? 'justify-center w-full px-4 py-2' : 'w-max animate-marquee-center ml-[550px]'
+      )}
+    >
+      <img
+        src="https://res.cloudinary.com/ddetplmdz/image/upload/v1744824808/carside_qt2dhd.webp"
+        alt="Moving Car"
         className={cn(
-          'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out ',
-                    isScrolled ? "backdrop shadow-sm " : "bg-white",
-
-        
+          'object-contain',
+          isMobile ? 'w-40 h-10 -mx-10' : 'w-15 h-10 mb-0.5 mt-1'
+        )}
+      />
+      <div
+        className={cn(
+          'text-housing-100 whitespace-nowrap',
+          isMobile ? 'text-sm text-center ml-2' : 'absolute ml-[210px]'
         )}
       >
-      <div className="relative overflow-hidden bg-housing-700 mb-0 mt-0 z-10">
-        <div className="flex w-max animate-marquee-center gap-[10px] items-center ml-[550px]">
-          <img src="https://res.cloudinary.com/ddetplmdz/image/upload/v1744824808/carside_qt2dhd.webp" alt="Moving Car" className="w-15 h-10 mb-.5 mt-1 object-contain" />
-          <div className="absolute text-l text-housing-100 whitespace-nowrap ml-[210px]">
-            <span className="text-sm hidden md:inline-block">
-              ENQUIRE NOW FOR A FREE SITE VISIT - +91-76393-02976
-            </span>
-          </div>
-        </div>
+        <span className={cn(isMobile ? 'block text-sm' : 'hidden md:inline-block')}>
+          ENQUIRE NOW FOR A FREE SITE VISIT - +91-76393-02976
+        </span>
       </div>
-    </header>
+    </div>
+  </div>
+</header>
   );
 };
 

@@ -5,7 +5,7 @@ const VisitSchema = new mongoose.Schema({
   name: { type: String, required: true },
   phone: { type: String, required: true },
   property: { type: String,  default: "" },
-  visitdate : { type:Date, default:() => Date.now()},
+  visitDate : { type:Date, required: true},
   people : { type: Number, default: false },
   status: { type: String, default: false },
   createdAt:{type:Date, default:() => Date.now(), immutable:true},
