@@ -72,9 +72,9 @@ const NavBar = () => {
         </Link>
         
         <div className="hidden md:flex items-center space-x-1">
+          <NavItem href="/admin" label="Property" isActive={isActive('/admin')} />
           <NavItem href="/admin/visits" label="Visits" isActive={isActive('/admin/visits')} />
           <NavItem href="/admin/enquiries" label="Images" isActive={isActive('/admin/enquiries')} />
-          <NavItem href="/admin" label="Add Property" isActive={isActive('/admin')} />
           <NavItem href="/admin/customer" label="Customers" isActive={isActive('/admin/customer')} />
 
         </div>
