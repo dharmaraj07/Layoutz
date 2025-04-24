@@ -534,9 +534,9 @@ const emptyRowsE = rowsPerPage - sortedPaginatedEnquiries.length;
                               <Button variant="ghost" size="sm" onClick={() => handleOpenEditDialog(visit)}>
                                 <Pencil className="h-4 w-4" />
                               </Button>
-                              <Button variant="ghost" size="sm" onClick={() => handleOpenDeleteDialog(visit._id)}>
+{/*                               <Button variant="ghost" size="sm" onClick={() => handleOpenDeleteDialog(visit._id)}>
                                 <Trash2 className="h-4 w-4 text-destructive" />
-                              </Button>
+                              </Button> */}
                             </div>
                           </TableCell>
                         </TableRow>
@@ -547,11 +547,11 @@ const emptyRowsE = rowsPerPage - sortedPaginatedEnquiries.length;
                         </TableRow>
                       ))} 
                     </TableBody>
-                    <div className="flex justify-between items-center py-4">
+                    <div className="flex justify-between items-center p-4">
                       <Button
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
-                        className="px-4 py-2 text-sm"
+                        className="px-4 py-2 text-sm p-4"
                       >
                         Previous
                       </Button>
