@@ -20,7 +20,7 @@ const __dirname = path.resolve();
 
 
 app.use(cors({
-  origin: "https://layoutz.in",
+  origin: "https://layoutz-6-xq8l.onrender.com/",
   credentials:true
 
 }))
