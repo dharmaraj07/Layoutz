@@ -71,33 +71,35 @@ useEffect(() => {
     isMobile ? '' : 'transition-all duration-300 ease-out' // disable transition on mobile
   )}
 >
-  <div className="relative overflow-hidden bg-housing-700 mb-0 mt-0 z-10">
+<div className="relative overflow-hidden bg-housing-700 mb-0 mt-0 z-10">
+  <div
+    className={cn(
+      'flex gap-[10px] items-center',
+      isMobile
+        ? 'justify-center w-full px-4 py-2'
+        : 'w-max animate-marquee-to-center'
+    )}
+  >
+    <img
+      src="https://res.cloudinary.com/ddetplmdz/image/upload/v1744824808/carside_qt2dhd.webp"
+      alt="Moving Car"
+      className={cn(
+        'object-contain',
+        isMobile ? 'w-40 h-10 -mx-10' : 'w-15 h-10 mb-0.5 mt-1'
+      )}
+    />
     <div
       className={cn(
-        'flex gap-[10px] items-center',
-        isMobile ? 'justify-center w-full px-4 py-2' : 'w-max animate-marquee-center ml-full/2'
+        'text-housing-100 whitespace-nowrap',
+        isMobile ? 'text-sm text-center ml-2' : 'ml-[210px]'
       )}
     >
-      <img
-        src="https://res.cloudinary.com/ddetplmdz/image/upload/v1744824808/carside_qt2dhd.webp"
-        alt="Moving Car"
-        className={cn(
-          'object-contain',
-          isMobile ? 'w-40 h-10 -mx-10' : 'w-15 h-10 mb-0.5 mt-1'
-        )}
-      />
-      <div
-        className={cn(
-          'text-housing-100 whitespace-nowrap',
-          isMobile ? 'text-sm text-center ml-2' : 'absolute ml-[210px]'
-        )}
-      >
-        <span className={cn(isMobile ? 'block text-sm' : 'hidden md:inline-block')}>
-          ENQUIRE NOW FOR A FREE SITE VISIT - +91-76393-02976
-        </span>
-      </div>
+      <span className={cn(isMobile ? 'block text-sm' : 'hidden md:inline-block')}>
+        ENQUIRE NOW FOR A FREE SITE VISIT - +91-76393-02976
+      </span>
     </div>
   </div>
+</div>
 </header>
   );
 };
