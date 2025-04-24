@@ -75,7 +75,7 @@ useEffect(() => {
     <div
       className={cn(
         'flex gap-[10px] items-center',
-        isMobile ? 'justify-center w-full px-4 py-2' : 'w-max animate-marquee-center ml-[550px]'
+        isMobile ? 'justify-center w-full px-4 py-2' : 'w-max animate-marquee-center ml-full/2'
       )}
     >
       <img
