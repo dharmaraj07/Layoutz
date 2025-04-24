@@ -9,7 +9,7 @@ export function FloatingContactButtons() {
   
   const handleCall = () => {
     // Set the phone number you want to call
-    const phoneNumber = "+1234567890"; // Replace with your actual phone number
+    const phoneNumber = "+917639302976"; // Replace with your actual phone number
     
     // Show dialing indicator
     setIsDialing(true);
@@ -30,7 +30,7 @@ export function FloatingContactButtons() {
   };
   
   return (
-    <div className="fixed right-0  top-1/3 z-50 flex flex-col gap-2">
+    <div className="fixed right-0  top-1/3 z-50 flex flex-col gap-2 opacity-80">
       <a 
         href="https://wa.me/+917639302976?text=I'm%20interested%20in%20learning%20more%20about%20your%20properties"
         target="_blank"
