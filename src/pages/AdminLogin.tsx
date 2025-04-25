@@ -144,7 +144,6 @@ const AdminLogin = () => {
                 />
               </div>
               <p className="text-sm text-muted-foreground">
-                Hint: Username is Dharmaraj07
               </p>
             </div>
             
@@ -164,7 +163,6 @@ const AdminLogin = () => {
                 />
               </div>
               <p className="text-sm text-muted-foreground">
-                Hint: Password is Amaravathi@1
               </p>
             </div>
             
