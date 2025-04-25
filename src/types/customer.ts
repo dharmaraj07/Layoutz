@@ -7,5 +7,12 @@ export interface Customer {
     review: string;
     rating: number;
     videolink: string;
+    phone:string;
+    location:string;
+    property:string;
+    plotNum:string;
+    custType:'enquiry' | 'purchase' | 'justvisit';
+    visitDate:Date | string;
+    nextVisitDate:Date | string;
   }
   

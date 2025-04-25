@@ -196,11 +196,11 @@ const Enquiries = () => {
   }
 
   return (
-    <div className="min-h-screen flex  justify-center">
+    <div className="min-h-screen flex flex-col items-center">
         <NavBarAdmin />
 
-      <div className="bg-background py-20">
-        <div className="container mx-0 pt-16">
+        <div className="w-full px-4 sm:px-6 md:px-8 py-20">
+        <div className="max-w-screen-xl mx-auto pt-10">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
             <div className="flex items-center">
               <Link to="/">

@@ -10,6 +10,13 @@ export const cust = async (req, res) => {
       review,
       rating,
       videolink, 
+      phone,
+      location,
+      property,
+      plotNum,
+      custType,
+      visitDate,
+      nextVisitDate
     
     } = req.body;
 
@@ -24,7 +31,14 @@ export const cust = async (req, res) => {
       job,
       review,
       rating,
-      videolink
+      videolink, 
+      phone,
+      location,
+      property,
+      plotNum,
+      custType,
+      visitDate,
+      nextVisitDate
     });
 
     await newCust.save();
@@ -35,6 +49,21 @@ export const cust = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const addBulkCust = async (req, res) => {
+  const customers  = req.body;
+  console.log(customers)
+  if (!Array.isArray(customers)) {
+    return res.status(400).json({ error: 'Expected customers to be an array' });
+  }
+  try {
+    const inserted = await Customer.insertMany(customers);
+    res.status(201).json(inserted);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 
 export const getCust = async (req, res) => {
     try {
@@ -79,3 +108,5 @@ export const getCust = async (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
     }
   };
+
+  

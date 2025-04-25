@@ -15,6 +15,7 @@ import { FloatingContactButtons } from "./components/layout/FloatingContactButto
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { useAuth } from "./hooks/useAuth";
 import About from "./pages/About";
+import Whatsapp from "./components/whatsapp";
 
 function App() {
   const { data: authUser, isLoading, isError } = useAuth();
@@ -42,6 +43,7 @@ function App() {
         <Route path="/admin/customer" element={<ProtectedRoute><CustAdmin /></ProtectedRoute>} />
         <Route path="/admin/enquiries" element={<ProtectedRoute><Enquiries /></ProtectedRoute>} />
         <Route path="/admin/visits" element={<ProtectedRoute><ScheduleVisit /></ProtectedRoute>} />
+        <Route path="/admin/whatsapp" element={<ProtectedRoute><Whatsapp /></ProtectedRoute>} />
 
         {/* 404 */}
        <Route path="*" element={<About />} /> 

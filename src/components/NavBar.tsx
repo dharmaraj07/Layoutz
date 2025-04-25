@@ -67,15 +67,29 @@ const NavBar = () => {
         />
       )}
 
-      <nav className="relative z-50 max-w-8xl mx-4 mt-10 md:mx-20 flex h-20 items-center justify-between px-4 bg-white border shadow-lg rounded-b-lg">
-        {/* Logo */}
-        <Link
-          to="/"
-          className="text-2xl md:text-4xl flex items-center font-heading font-bold text-housing-800 gap-3 hover:scale-105 transition-transform"
+<nav className="relative z-50 max-w-8xl mx-4 mt-10 pt-2 md:mx-20 flex h-20 items-center justify-between px-4 bg-white border shadow-lg rounded-b-lg">
+  {/* Logo - centered on mobile */}
+  <div className="absolute inset-x-0 flex justify-center md:static md:justify-start">
+    <Link
+      to="/"
+      className="text-2xl md:text-4xl flex items-center font-heading font-bold text-housing-800 gap-3 hover:scale-105 transition-transform"
+    >
+      <img src={logo} alt="Logo" className="w-10 h-10" />
+      <span className="-mx-2">Layoutz</span>
+    </Link>
+  </div>
+
+  {/* Hamburger for mobile - visible only on mobile */}
+  <div className="md:hidden ml-auto z-50">
+        {/* Mobile Menu Toggle */}
+        <button
+          className="md:hidden text-housing-800 p-2 z-50"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label="Toggle menu"
         >
-          <img src={logo} alt="Logo" className="w-10 h-10" />
-          <span className="-mx-2">Layoutz</span>
-        </Link>
+          {isOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+  </div>
 
         {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-6 text-base font-medium">
@@ -98,14 +112,7 @@ const NavBar = () => {
           <ScheduleVisitDialog />
         </div>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="md:hidden text-housing-800 p-2 z-50"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+
 
         {/* Mobile Menu */}
         <div

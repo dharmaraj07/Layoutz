@@ -72,10 +72,11 @@ const Visits = () => {
   };
   console.log(filteredVisits)
   return (
-    <div className="min-h-screen flex flex-col">
-      <NavBarAdmin />
-      <div className="bg-background py-20">
-        <div className="container max-w-6xl mx-auto px-4 pt-16">
+    <div className="min-h-screen flex flex-col items-center">
+        <NavBarAdmin />
+
+        <div className="w-full px-4 sm:px-6 md:px-8 py-20">
+        <div className="max-w-screen-xl mx-auto pt-10">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div className="flex items-center">
               <Link to="/">

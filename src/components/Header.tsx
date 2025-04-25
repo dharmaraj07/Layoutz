@@ -74,7 +74,7 @@ useEffect(() => {
   <div className="relative overflow-hidden bg-housing-700 mb-0 mt-0 z-10">
     <div
       className={cn(
-        'flex gap-[10px] items-center',
+        'flex gap-[0px] items-center',
         isMobile ? 'justify-center w-full px-4 py-2' : 'w-max animate-marquee-center ml-[400px]'
       )}
     >
@@ -89,10 +89,10 @@ useEffect(() => {
       <div
         className={cn(
           'text-housing-100 whitespace-nowrap',
-          isMobile ? 'text-sm text-center ml-2' : 'absolute ml-[210px]'
+          isMobile ? 'text-xs text-center ml-2' : 'absolute ml-[210px]'
         )}
       >
-        <span className={cn(isMobile ? 'block text-sm' : 'hidden md:inline-block')}>
+        <span className={cn(isMobile ? 'block text-xs' : 'hidden md:inline-block')}>
           ENQUIRE NOW FOR A FREE SITE VISIT - +91-76393-02976
         </span>
       </div>

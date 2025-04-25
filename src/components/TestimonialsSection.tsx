@@ -65,6 +65,7 @@ const TestimonialsSection = () => {
     return () => clearInterval(timer);
   }, [totalPages]);
 
+
   const displayedItems = customers.slice(
     activeIndex * itemsPerPage,
     (activeIndex + 1) * itemsPerPage
@@ -100,7 +101,7 @@ const TestimonialsSection = () => {
               style={{ transform: `translateX(-${activeIndex * 100}%)` }}
             >
               <div className="min-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {displayedItems.map((item) => (
+                {displayedItems .filter(item => item.review && item.custType === 'purchase').map((item) => (
                   <Card
                     key={item._id}
                     className="h-full border-0 shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden group cursor-pointer"

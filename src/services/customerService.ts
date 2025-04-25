@@ -38,6 +38,19 @@ export const addCustomer = async (customers: Omit<Customer, '_id'>) => {
   return res.json();
 };
 
+//Bulk Upload
+
+export const addBulkCustomer = async (customers: Omit<Customer, '_id'>[]): Promise<void> => {
+  const res = await fetch(`${baseURL}/api/cust/addBulkCust`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(customers),
+    credentials: 'include',
+  });
+  if (!res.ok) throw new Error('Failed to add customer');
+  return res.json();
+};
+
 // Update an existing property
 export const updateCustomer = async (customers: Customer) => {
   const res = await fetch(`${baseURL}/api/cust/updateCust/${customers._id}`, {
