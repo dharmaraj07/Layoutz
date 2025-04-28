@@ -4,7 +4,7 @@ import generateToken from '../utils/generateToken.js';
 export const props = async (req, res) => {
   try {
     const { title, location, price, sqft, image,mobileImage,propimage, featured, forSale, type,projectArea, totalPlots,
-      approved,mapSrc,schools, college, transit, hospital, restaurants, youtubelinkm, residential,highlight, plotElitePrice,plotPremiumPrice} = req.body;
+      approved,mapSrc,schools, college, transit, hospital, restaurants, youtubelink, residential,highlight, plotElitePrice,plotPremiumPrice} = req.body;
   
     // ✅ Basic validation
     if (!title || !location || !price || !sqft || !type || !featured|| !forSale|| !projectArea|| !totalPlots|| !approved || !mapSrc || !residential ||!propimage) {

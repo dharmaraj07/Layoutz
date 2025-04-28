@@ -41,15 +41,27 @@ export const saveProperties = (properties: Property[]): void => {
 
 // Add a new property
 export const addProperty = async (property: Omit<Property, '_id'>) => {
-  const res = await fetch(`${baseURL}/api/prop/props`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(property),
-    credentials: 'include',
-  });
-  if (!res.ok) throw new Error('Failed to add property');
-  return res.json();
-};
+  console.log(property)
+  try {
+    const res = await fetch(`${baseURL}/api/prop/props`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(property),
+      credentials: 'include',
+    });
+  
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error(`Error ${res.status}: ${errorText}`);
+      throw new Error(`Failed to add property: ${res.status}`);
+    }
+  
+    return await res.json();
+  } catch (error) {
+    console.error('Fetch error:', error);
+    throw error;
+  }
+}
 
 // Update an existing property
 export const updateProperty = async (property: Property) => {
