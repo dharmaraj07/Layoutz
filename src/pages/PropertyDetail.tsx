@@ -168,7 +168,7 @@ const toggleCategory = (category: string) => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <Header />
-      <PropertyHeroSection/>
+      <PropertyHeroSection propertyId= {property._id}/>
        {/* Container for Item Section */}
   <div className="relative px-4 sm:px-6 md:px-8 mt-4 sm:mt-6 md:-mt-10 lg:-mt-12">
     {/* This ensures grid is stacked vertically on mobile and flexed on larger screens */}
@@ -199,7 +199,7 @@ const toggleCategory = (category: string) => {
         <div>
           <img src={rera} className="mx-auto mb-2 h-8 sm:h-10" alt="RERA ID" />
           <p className="font-bold mb-1 text-sm sm:text-base">RERA ID</p>
-          <p className="text-xs sm:text-sm">NA*</p>
+          <p className="text-xs sm:text-sm">{property.reraID}</p>
         </div>
 
         {/* Item 5 */}
@@ -350,12 +350,16 @@ const toggleCategory = (category: string) => {
                   <li>Rs {property.plotElitePrice} /Sq.ft</li>
                   <li>Rs {(property.sqft * property.plotElitePrice/100000).toLocaleString()} Lakhs Onwards*</li>
                 </ul>
-                <ul className="grid grid-cols-4 text-center font-bold text-gray-700 py-4 border-t">
-                  <li>Plots - Premium</li>
-                  <li>{property.sqft} Sq.ft onwards</li>
-                  <li>Rs {property.plotPremiumPrice} /Sq.ft</li>
-                  <li>Rs {(property.sqft * property.plotPremiumPrice/100000).toLocaleString()} Lakhs Onwards*</li>
-                </ul>
+                {!!property.plotPremiumPrice && (
+                  <ul className="grid grid-cols-4 text-center font-bold text-gray-700 py-4 border-t">
+                    <li>Plots - Premium</li>
+                    <li>{property.sqft} Sq.ft onwards</li>
+                    <li>Rs {property.plotPremiumPrice} /Sq.ft</li>
+                    <li>
+                      Rs {(property.sqft * property.plotPremiumPrice / 100000).toLocaleString()} Lakhs Onwards*
+                    </li>
+                  </ul>
+                )}
               </div>
             </div>
           </section>

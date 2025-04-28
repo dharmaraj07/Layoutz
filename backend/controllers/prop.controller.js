@@ -3,7 +3,7 @@ import generateToken from '../utils/generateToken.js';
 
 export const props = async (req, res) => {
   try {
-    const { title, location, price, sqft, image,mobileImage,propimage, featured, forSale, type,projectArea, totalPlots,
+    const { title, location, price, sqft, image,beds, baths,mobileImage,propimage, featured, forSale, reraID,type,projectArea, totalPlots,
       approved,mapSrc,schools, college, transit, hospital, restaurants, youtubelink, residential,highlight, plotElitePrice,plotPremiumPrice} = req.body;
   
     // ✅ Basic validation
@@ -14,9 +14,12 @@ export const props = async (req, res) => {
     const newProps = new Props({
       title,
       location,
+      beds,
+      baths,
       price,
       sqft,
       image,
+      reraID,
       mobileImage,
       propimage,
       featured,

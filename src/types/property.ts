@@ -13,6 +13,7 @@ export interface Property {
     featured?: boolean;
     forSale: boolean;
     type: 'apartment' | 'house' | 'condo' | 'townhouse' | 'villa' | 'plots';
+    reraID:string;
     plotPremiumPrice:number,
     plotElitePrice:number,
     projectArea:string;

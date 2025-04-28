@@ -60,6 +60,7 @@ const Admin = () => {
     featured: false,
     forSale: true,
     type: 'plots',
+    reraID:'',
     projectArea:'',
     totalPlots:0,
     approved:true,
@@ -126,6 +127,7 @@ const { mutate: logout} = useMutation({
       featured: false,
       forSale: true,
       type: 'plots',
+      reraID:'',
       projectArea:'',
       totalPlots:0,
       plotElitePrice:0,
@@ -305,6 +307,7 @@ const { mutate: logout} = useMutation({
                     <TableHead>Status</TableHead>
                     <TableHead>Project Area</TableHead>
                     <TableHead>Total Plots</TableHead>
+                    <TableHead>REAR ID</TableHead>
                     <TableHead >DTCP & RERA Approved</TableHead>
                     <TableHead>MapSrc</TableHead>
                     <TableHead>Actions</TableHead>
@@ -363,6 +366,7 @@ const { mutate: logout} = useMutation({
                       </TableCell>
                       <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.projectArea}</TableCell>
                       <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.totalPlots}</TableCell>
+                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.reraID}</TableCell>
                       <TableCell className="w-[200px] max-w-[200px] truncate text-sm">
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           property.approved ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
@@ -463,6 +467,17 @@ const { mutate: logout} = useMutation({
                     value={currentProperty.plotPremiumPrice || ''}
                     onChange={handleInputChange}
                     placeholder="1,800"
+                    
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="reraID">RERA ID *</Label>
+                  <Input
+                    id="reraID"
+                    name="reraID"
+                    value={currentProperty.reraID || ''}
+                    onChange={handleInputChange}
+                    placeholder="TN/1253"
                     required
                   />
                 </div>

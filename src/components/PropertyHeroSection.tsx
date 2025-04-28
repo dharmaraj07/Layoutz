@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react';
 import { Property } from '@/types/property';
 import { useProps } from '../hooks/useAuth';
 
-const PropertyHeroSection = () => {
-  const [currentImage, setCurrentImage] = useState(0);
+interface PropertyHeroSectionProps {
+  propertyId: string;
+}
+
+const PropertyHeroSection = ({ propertyId }: PropertyHeroSectionProps) => {
   const [isMobile, setIsMobile] = useState(false);
   const [properties, setProperties] = useState<Property[]>([]);
   const { data: propsData } = useProps();
@@ -23,38 +26,25 @@ const PropertyHeroSection = () => {
     }
   }, [propsData]);
 
-  // Prepare filtered images
-  const filteredProps = properties.map((prop) => ({
-    imageUrl: isMobile ? prop.mobileImage : prop.image,
-  }));
+  // Find the property with the matching ID
+  const selectedProperty = properties.find((prop) => prop._id === propertyId);
 
-  // Auto slide every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % filteredProps.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [filteredProps.length]);
+  // Determine the appropriate image URL
+  const imageUrl = selectedProperty
+    ? isMobile
+      ? selectedProperty.mobileImage
+      : selectedProperty.image
+    : '';
 
   return (
-    <section className="relative h-screen w-screen overflow-hidden">
-      {/* Background image slider */}
-      <div className="absolute inset-0 z-0">
-        {filteredProps.map(({ imageUrl }, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              currentImage === index ? 'opacity-100' : 'opacity-0'
-            }`}
-            style={{
-              backgroundImage: `url(${imageUrl})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
-        ))}
-      </div>
-
+    <section
+      className="relative h-screen w-screen overflow-hidden"
+      style={{
+        backgroundImage: `url(${imageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       {/* Optional: gradient overlay */}
       {/* <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent z-10" /> */}
 
