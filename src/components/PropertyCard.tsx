@@ -94,7 +94,7 @@ const PropertyCard = ({
                 <span>{location}</span>
               </div>
               <div className="text-medium text-muted-foreground capitalize mb-3">
-                {type == 'plots' ? "Residential Plots" : "Commercial Plots"}
+                {type == 'plots' ? "Residential Plots" : type}
               </div>
               
             </div>

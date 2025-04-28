@@ -7,7 +7,7 @@ export const props = async (req, res) => {
       approved,mapSrc,schools, college, transit, hospital, restaurants, youtubelink, residential,highlight, plotElitePrice,plotPremiumPrice} = req.body;
   
     // ✅ Basic validation
-    if (!title || !location || !price || !sqft || !type || !featured|| !forSale|| !projectArea|| !totalPlots|| !approved || !mapSrc || !residential ||!propimage) {
+    if (!title || !location || !price || !sqft || !type ||  !forSale|| !projectArea|| !totalPlots|| !approved || !mapSrc || !residential ||!propimage) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
