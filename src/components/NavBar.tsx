@@ -92,7 +92,7 @@ const NavBar = () => {
   </div>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center space-x-6 text-base font-medium">
+        <div className="hidden md:flex items-center space-x-6 text-base font-bold">
           <NavItem href="/" label="Home" isActive={isActive('/')} />
           <NavItem href="/properties" label="Properties" isActive={isActive('/properties')} />
           <NavItem href="/investor" label="Investor" isActive={isActive('/investor')} />
@@ -115,7 +115,7 @@ const NavBar = () => {
 
 
         {/* Mobile Menu */}
-        <div
+        <div  
   className={cn(
     'fixed top-0 right-0 h-full w-72 max-w-full bg-white shadow-lg z-100 transition-all duration-300 ease-in-out md:hidden',
     isOpen ? 'translate-x-0' : 'translate-x-full'
@@ -178,7 +178,7 @@ const NavItem = ({ href, label, isActive = false, isDropdown = false }: NavItemP
     <Link
       to={href}
       className={cn(
-        'relative px-3 py-2 font-medium text-sm transition-colors group',
+        'relative px-3 py-2 font-bold text-lg transition-colors group',
         isActive ? 'text-housing-600' : 'text-housing-800 hover:text-housing-600'
       )}
     >

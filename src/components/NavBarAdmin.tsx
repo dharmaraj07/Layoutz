@@ -149,7 +149,7 @@ const NavItem = ({ href, label, isActive = false, isDropdown = false }: NavItemP
     <Link
       to={href}
       className={cn(
-        'relative px-3 py-2 font-medium text-sm transition-colors group',
+        'relative px-3 py-2 font-bold text-lg  transition-colors group',
         isActive ? 'text-housing-600' : 'text-housing-800 hover:text-housing-600'
       )}
     >
