@@ -96,7 +96,7 @@ const NavBar = () => {
           <NavItem href="/" label="Home" isActive={isActive('/')} />
           <NavItem href="/properties" label="Properties" isActive={isActive('/properties')} />
           <NavItem href="/investor" label="Investor" isActive={isActive('/investor')} />
-          <NavItem href="/about" label="About" isActive={isActive('/about')} isDropdown />
+          <NavItem href="/about" label="About" isActive={isActive('/about')}  />
           <NavItem href="/contact" label="Contact" isActive={isActive('/contact')} />
         </div>
 
