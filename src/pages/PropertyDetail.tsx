@@ -323,6 +323,7 @@ const toggleCategory = (category: string) => {
                 </div>
 
                 {/* Premium Plot Pricing */}
+                {!!property.plotPremiumPrice && (
                 <div className="pt-2">
                   <p className="text-xs font-semibold text-white/80 mb-2">Plots - Premium</p>
                   <div className="flex justify-between">
@@ -334,7 +335,9 @@ const toggleCategory = (category: string) => {
                     <span>Rs {(property.sqft * property.plotPremiumPrice / 100000).toLocaleString()} Lakhs Onwards*</span>
                   </div>
                 </div>
+                            )}
               </div>
+
 
               {/* Desktop Table */}
               <div className="hidden lg:block w-full max-w-5xl mx-auto bg-white border rounded-lg shadow overflow-hidden mt-8">
@@ -351,8 +354,8 @@ const toggleCategory = (category: string) => {
                   <li>Rs {(property.sqft * property.plotElitePrice/100000).toLocaleString()} Lakhs Onwards*</li>
                 </ul>
                 {!!property.plotPremiumPrice && (
-                  <ul className="grid grid-cols-4 text-center font-bold text-gray-700 py-4 border-t">
-                    <li>Plots - Premium</li>
+                  <ul className="grid grid-cols-1 sm:grid-cols-4 text-center font-bold text-gray-700 py-2 sm:py-4 border-t text-[12px] sm:text-base gap-y-2">
+                    <li className="hidden sm:block">Plots - Premium</li>
                     <li>{property.sqft} Sq.ft onwards</li>
                     <li>Rs {property.plotPremiumPrice} /Sq.ft</li>
                     <li>
