@@ -74,8 +74,8 @@ useEffect(() => {
   <div className="relative overflow-hidden bg-housing-700 mb-0 mt-0 z-10">
     <div
       className={cn(
-        'flex gap-[0px] items-center',
-        isMobile ? 'justify-center w-full px-4 py-2' : 'w-max animate-marquee-center ml-[400px]'
+        'flex items-center ',
+        isMobile ? 'justify-center w-full px-4 py-2' : 'justify-center animate-marquee-center'
       )}
     >
       <img
@@ -83,19 +83,13 @@ useEffect(() => {
         alt="Moving Car"
         className={cn(
           'object-contain',
-          isMobile ? 'w-40 h-10 -mx-10' : 'w-15 h-10 mb-0.5 mt-1'
+          isMobile ? 'w-30 h-5 -mx-10' : 'w-15 h-10 mb-0.5 mt-1'
         )}
       />
-      <div
-        className={cn(
-          'text-housing-100 whitespace-nowrap',
-          isMobile ? 'text-xs text-center ml-2' : 'absolute ml-[210px]'
-        )}
-      >
-        <span className={cn(isMobile ? 'block text-xs' : 'hidden md:inline-block')}>
-          ENQUIRE NOW FOR A FREE SITE VISIT - +91-76393-02976
+        <span className={cn(isMobile ? 'block text-[10px] text-housing-100 mx-4' : 'hidden md:inline-block text-housing-100 -mx-10')}>
+          ENQUIRE NOW FOR A FREE SITE VISIT - +91-7639302976
         </span>
-      </div>
+
     </div>
   </div>
 </header>
