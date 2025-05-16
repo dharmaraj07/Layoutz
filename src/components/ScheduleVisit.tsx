@@ -65,6 +65,7 @@ const ScheduleVisit = () => {
     property: '',
     review: '',
     invest:true,
+    visitTime: new Date(),
     createdAt: new Date()
   });
   const [isEditing, setIsEditing] = useState(false);
@@ -75,6 +76,8 @@ const ScheduleVisit = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [visitDateMap, setVisitDateMap] = useState({}); // Store visit dates per enquiry
+  const [editingMap, setEditingMap] = useState({}); // Track which rows are in "edit" mode
 
   // Update states when data is loaded
   useEffect(() => {
@@ -273,6 +276,35 @@ const exportToExcel = () => {
       });
     }
   };
+const handleVisitDateChange = (id, value) => {
+  setVisitDateMap(prev => ({ ...prev, [id]: value }));
+};
+
+
+const toggleEditing = (id) => {
+  setEditingMap(prev => ({ ...prev, [id]: !prev[id] }));
+};
+
+const handleSaveVisitDate = async (id) => {
+  const visitDate = visitDateMap[id];
+  if (!visitDate) return;
+
+  try {
+    await updateallEnq(id, { visitDate });
+    console.log('Visit date saved:', visitDate);
+
+    // Turn off editing mode
+    setEditingMap(prev => ({ ...prev, [id]: false }));
+
+    // Update UI to show saved date
+    setVisitDateMap(prev => ({ ...prev, [id]: visitDate }));
+    setTab('enquiry')
+    window.location.reload()
+  
+  } catch (error) {
+    console.error('Failed to save visit date', error);
+  }
+};
 
   const handleConfirmEnq = async (enqId: string) => {
     try {
@@ -611,6 +643,9 @@ const emptyRowsE = rowsPerPage - sortedPaginatedEnquiries.length;
                   
                       </TableHead>
                       <TableHead className="cursor-pointer">
+                        Visit Date
+                      </TableHead>
+                      <TableHead className="cursor-pointer">
                         Investment
                       </TableHead>
                       </TableRow>
@@ -641,6 +676,45 @@ const emptyRowsE = rowsPerPage - sortedPaginatedEnquiries.length;
                               </div>
                             )}
                           </TableCell>
+                      <TableCell>
+                        {/* New Visit Date/Time Column */}
+                      <TableCell>
+                        {editingMap[enq._id] ? (
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="datetime-local"
+                              value={visitDateMap[enq._id] ?? enq.visitDate ?? ''}
+                              onChange={(e) => handleVisitDateChange(enq._id, e.target.value)}
+                              className="border rounded px-2 py-1 text-sm"
+                            />
+                            <Button size="sm" onClick={() => handleSaveVisitDate(enq._id)}>
+                              Save
+                            </Button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            <span>
+                              {enq.visitDate
+                                ? new Date(enq.visitDate).toLocaleString('en-GB', {
+                                    day: '2-digit',
+                                    month: '2-digit',
+                                    year: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                  })
+                                : 'No visit date'}
+                            </span>
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              onClick={() => toggleEditing(enq._id)}
+                            >
+                              <Pencil className="w-4 h-4 text-blue-600" />
+                            </Button>
+                          </div>
+                        )}
+                      </TableCell>
+                      </TableCell>
                       <TableCell className="w-[200px] max-w-[150px] truncate text-sm text-center">
                         <span className={`flex items-center px-2 py-1 rounded-l text-medium font-medium ${
                           enq.invest ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'

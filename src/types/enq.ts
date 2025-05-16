@@ -6,6 +6,7 @@ export interface Enq {
     property: string;
     review:string;
     completed:string;
+    visitTime: Date | string;
     createdAt:Date | string;
     invest:boolean;
 

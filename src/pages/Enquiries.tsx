@@ -37,6 +37,7 @@ import {baseURL} from '../content/url'
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import { useHero, useProps } from '../hooks/useAuth';
 import { Property } from '@/types/property';
+import { ScheduleVisitDialog } from '@/components/ScheduleVisitDialog';
 
 
 
@@ -267,6 +268,7 @@ const Enquiries = () => {
                       <TableCell className="w-[200px] max-w-[200px] truncate text-sm">
                         {hero.link || 'No link'}
                       </TableCell>
+                      <TableCell><ScheduleVisitDialog/></TableCell>
                       <TableCell className="w-[200px] max-w-[200px] truncate text-sm">
                         <div className="flex space-x-2">
                           <Button variant="ghost" size="sm" onClick={() => handleOpenEditDialog(hero)}>

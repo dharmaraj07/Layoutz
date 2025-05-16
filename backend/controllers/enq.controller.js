@@ -8,6 +8,7 @@ export const enq = async (req, res) => {
       property,
       review,
       completed,
+      visitDate,
       invest
     
     } = req.body;
@@ -23,6 +24,7 @@ export const enq = async (req, res) => {
         property,
         review,
         completed,
+        visitDate,
         invest
     });
 

@@ -38,6 +38,7 @@ import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import { useAuth, useProps, useVisit } from '../hooks/useAuth';
 import logo from '../image/logo.png';
 import { Property } from '@/types/property';
+import { ScheduleVisitDialog } from '@/components/ScheduleVisitDialog';
 
 
 
@@ -292,6 +293,7 @@ const ScheduleVisit= () => {
                                         </div>
                                       )}
                                     </TableCell>
+                                    <TableCell><ScheduleVisitDialog/></TableCell>
 
                                     <TableCell className="w-[200px] max-w-[200px] truncate text-sm">
                                       <div className="flex space-x-2">
