@@ -268,7 +268,6 @@ const Enquiries = () => {
                       <TableCell className="w-[200px] max-w-[200px] truncate text-sm">
                         {hero.link || 'No link'}
                       </TableCell>
-                      <TableCell><ScheduleVisitDialog/></TableCell>
                       <TableCell className="w-[200px] max-w-[200px] truncate text-sm">
                         <div className="flex space-x-2">
                           <Button variant="ghost" size="sm" onClick={() => handleOpenEditDialog(hero)}>

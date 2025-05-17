@@ -3,13 +3,15 @@ import Enq from "../model/enq.model.js";
 export const enq = async (req, res) => {
   try {
     const { 
-      name,
-      phone,
-      property,
-      review,
-      completed,
-      visitDate,
-      invest
+        name,
+        phone,
+        property,
+        review,
+        completed,
+        comment,
+        visitDate,
+        followUPDate,
+        invest
     
     } = req.body;
 
@@ -24,7 +26,9 @@ export const enq = async (req, res) => {
         property,
         review,
         completed,
+        comment,
         visitDate,
+        followUPDate,
         invest
     });
 
