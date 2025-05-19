@@ -65,6 +65,7 @@ const ScheduleVisit = () => {
     property: '',
     review: '',
     invest:true,
+    comment:'',
     visitTime: new Date(),
     createdAt: new Date()
   });
@@ -78,6 +79,8 @@ const ScheduleVisit = () => {
   const navigate = useNavigate();
   const [visitDateMap, setVisitDateMap] = useState({}); // Store visit dates per enquiry
   const [editingMap, setEditingMap] = useState({}); // Track which rows are in "edit" mode
+  const [commentsMap, setCommentsMap] = useState<{ [key: string]: string }>({});
+  const [viewComment, setViewComment] = useState<string | null>(null);
 
   // Update states when data is loaded
   useEffect(() => {
@@ -281,8 +284,17 @@ const handleVisitDateChange = (id, value) => {
 };
 
 
-const toggleEditing = (id) => {
-  setEditingMap(prev => ({ ...prev, [id]: !prev[id] }));
+const toggleEditing = (id: string, existingComment: string = '') => {
+  setEditingMap((prev) => ({
+    ...prev,
+    [id]: !prev[id],
+  }));
+
+  // Set existing comment in map so input shows it
+  setCommentsMap((prev) => ({
+    ...prev,
+    [id]: existingComment,
+  }));
 };
 
 const handleSaveVisitDate = async (id) => {
@@ -298,11 +310,35 @@ const handleSaveVisitDate = async (id) => {
 
     // Update UI to show saved date
     setVisitDateMap(prev => ({ ...prev, [id]: visitDate }));
-    setTab('enquiry')
+ 
     window.location.reload()
   
   } catch (error) {
     console.error('Failed to save visit date', error);
+  }
+};
+
+const handleCommentChange = (id, value) => {
+  setCommentsMap((prev) => ({ ...prev, [id]: value }));
+};
+
+const handleSaveComment = async (id) => {
+  const comment = commentsMap[id];
+  if (!comment) return;
+
+  try {
+    await updateallEnq(id, { comment }); 
+    // Your API call
+    console.log('Comment saved:', comment);
+    // Turn off edit mode
+    setEditingMap((prev) => ({ ...prev, [id]: false }));
+
+    // Optionally update the comment in the UI (e.g., update list of enquiries)
+    setCommentsMap(prev => ({ ...prev, [id]: comment }));
+        window.location.reload()
+
+  } catch (error) {
+    console.error('Failed to save comment', error);
   }
 };
 
@@ -437,7 +473,7 @@ const sortedPaginatedEnquiries = useMemo(() => {
 
 const emptyRows = rowsPerPage - sortedPaginatedVisitors.length;
 const emptyRowsE = rowsPerPage - sortedPaginatedEnquiries.length;
-
+console.log(sortedPaginatedEnquiries)
   return (
     <div className="">
       <NavBarAdmin />
@@ -646,6 +682,9 @@ const emptyRowsE = rowsPerPage - sortedPaginatedEnquiries.length;
                         Visit Date
                       </TableHead>
                       <TableHead className="cursor-pointer">
+                        Comments
+                      </TableHead>
+                      <TableHead className="cursor-pointer">
                         Investment
                       </TableHead>
                       </TableRow>
@@ -715,6 +754,40 @@ const emptyRowsE = rowsPerPage - sortedPaginatedEnquiries.length;
                         )}
                       </TableCell>
                       </TableCell>
+                      <TableCell>
+                        {editingMap[enq._id] ? (
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="text"
+                              value={commentsMap[enq._id] ?? enq.comments ?? ''}
+                              onChange={(e) => handleCommentChange(enq._id, e.target.value)}
+                              className="border rounded px-2 py-1 text-sm w-full"
+                              placeholder="Enter comments"
+                            />
+                            <Button size="sm" onClick={() => handleSaveComment(enq._id)}>
+                              Save
+                            </Button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-gray-800 overflow-hidden whitespace-pre-wrap max-w-[200px]">{enq.comment || 'No comments'}</span>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => setViewComment(enq.comment || 'No comments')}
+                            >
+                              View
+                            </Button>
+                            <Button
+                              size="icon"
+                              variant="ghost"
+                              onClick={() => toggleEditing(enq._id, enq.comment || '')}
+                            >
+                              <Pencil className="w-4 h-4 text-blue-600" />
+                            </Button>
+                          </div>
+                        )}
+                      </TableCell>
                       <TableCell className="w-[200px] max-w-[150px] truncate text-sm text-center">
                         <span className={`flex items-center px-2 py-1 rounded-l text-medium font-medium ${
                           enq.invest ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'
@@ -767,6 +840,19 @@ const emptyRowsE = rowsPerPage - sortedPaginatedEnquiries.length;
           )}
         </div>
       </div>
+
+      {viewComment && (
+  <Dialog open={true} onOpenChange={() => setViewComment(null)}>
+    <DialogContent className="max-w-md">
+      <DialogHeader>
+        <DialogTitle>Comment</DialogTitle>
+      </DialogHeader>
+      <div className="text-sm whitespace-pre-wrap break-words">
+        {viewComment}
+      </div>
+    </DialogContent>
+  </Dialog>
+)}
 
       {/* Add/Edit Visit Dialog */}
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>

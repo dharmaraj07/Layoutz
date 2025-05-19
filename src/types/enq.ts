@@ -8,7 +8,7 @@ export interface Enq {
     completed:string;
     visitTime: Date | string;
     comment:string;
-    followUPTime: Date | string;
+    followTime: Date | string;
     createdAt:Date | string;
     invest:boolean;
 
