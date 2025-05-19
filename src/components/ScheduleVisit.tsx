@@ -417,10 +417,17 @@ const handleSaveComment = async (id) => {
   // Pagination Logic for filtered visitors
   const indexOfLastRow = currentPage * rowsPerPage;
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
-  const totalPages = Math.ceil(visitors.length / rowsPerPage);
+  const totalPages_visit = Math.ceil(visitors.length / rowsPerPage);
+  const totalPages_enq = Math.ceil(enquiries.length / rowsPerPage);
 
   const handlePageChange = (page: number) => {
-    if (page > 0 && page <= totalPages) {
+    if (page > 0 && page <= totalPages_visit) {
+      setCurrentPage(page);
+    }
+  };
+
+    const handlePageChangeenq = (page: number) => {
+    if (page > 0 && page <= totalPages_enq) {
       setCurrentPage(page);
     }
   };
@@ -428,7 +435,7 @@ const paginatedVisitors = useMemo(() => {
   const start = (currentPage - 1) * rowsPerPage;
   const end = start + rowsPerPage;
   return sortedVisitors.slice(start, end); // ✅ paginate before sorting
-}, [visitors, currentPage]);
+}, [sortedVisitors, currentPage]);
 
 const sortedPaginatedVisitors = useMemo(() => {
   if (!sortConfig.key) return paginatedVisitors;  
@@ -452,10 +459,10 @@ const paginatedEnquiries = useMemo(() => {
   const start = (currentPage - 1) * rowsPerPage;
   const end = start + rowsPerPage;
   return sortedEnquiries.slice(start, end); // ✅ paginate before sorting
-}, [visitors, currentPage]);
+}, [sortedEnquiries, currentPage]);
 
 const sortedPaginatedEnquiries = useMemo(() => {
-  if (!sortConfig.key) return paginatedVisitors;
+  if (!sortConfig.key) return paginatedEnquiries;
 
   return [...paginatedEnquiries].sort((a, b) => {
     const aVal = a[sortConfig.key];
@@ -470,6 +477,7 @@ const sortedPaginatedEnquiries = useMemo(() => {
     }
   });
 }, [paginatedEnquiries, sortConfig]);
+
 
 const emptyRows = rowsPerPage - sortedPaginatedVisitors.length;
 const emptyRowsE = rowsPerPage - sortedPaginatedEnquiries.length;
@@ -624,11 +632,11 @@ console.log(sortedPaginatedEnquiries)
                         Previous
                       </Button>
                       <span className="text-sm">
-                        Page {currentPage} of {totalPages}
+                        Page {currentPage} of {totalPages_visit}
                       </span>
                       <Button
                         onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
+                        disabled={currentPage === totalPages_visit}
                         className="px-4 py-2 text-sm"
                       >
                         Next
@@ -807,18 +815,18 @@ console.log(sortedPaginatedEnquiries)
                   </Table>
                   <div className="flex justify-between items-center p-4">
                       <Button
-                        onClick={() => handlePageChange(currentPage - 1)}
+                        onClick={() => handlePageChangeenq(currentPage - 1)}
                         disabled={currentPage === 1}
                         className="px-4 py-2 text-sm p-4"
                       >
                         Previous
                       </Button>
                       <span className="text-sm">
-                        Page {currentPage} of {totalPages}
+                        Page {currentPage} of {totalPages_enq}
                       </span>
                       <Button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage === totalPages}
+                        onClick={() => handlePageChangeenq(currentPage + 1)}
+                        disabled={currentPage === totalPages_enq}
                         className="px-4 py-2 text-sm"
                       >
                         Next
