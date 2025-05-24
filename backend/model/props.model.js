@@ -22,7 +22,7 @@ const PropertySchema = new mongoose.Schema({
   approved:{ type: Boolean, required: true },
   mapSrc:{ type: String, required: true },
   schools:{ type: Array, required: false, unique: true },
-  highlight:{ type: Array, required: false, unique: true },
+  highlight:{ type: Array, required: false},
   college:{ type: Array, required: false },
   transit:{ type: Array, required: false },
   hospital:{ type: Array, required: false },
