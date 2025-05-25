@@ -71,6 +71,8 @@ const HeroSection = () => {
   if (heroLoading) return <div>Loading hero section...</div>;
   if (heroError) return <div>Failed to load hero section.</div>;
 
+  const activeItem = filteredHero[currentImage];
+
   return (
     <section className="relative h-screen w-screen overflow-hidden">
       {/* Hero background slideshow */}
@@ -86,7 +88,8 @@ const HeroSection = () => {
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
-            onClick={() => navigate(link)}
+            onClick={() => navigate(encodeURI(activeItem.link))}
+            
           />
         ))}
         {/* Optional: gradient overlay */}
