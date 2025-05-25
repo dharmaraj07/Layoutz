@@ -24,9 +24,10 @@ const HeroSection = () => {
   // Set hero data
   useEffect(() => {
     if (heroData && Array.isArray(heroData)) {
-      setHeros(heroData);
+      const sortedDesc = [...heroData].reverse();
+      setHeros(sortedDesc);
     }
-  }, [heroData]);
+  }, [heroData]); 
 
   // Filter and select images based on type and device
   const filteredHero = heros
