@@ -3,6 +3,7 @@ export interface Property {
     _id: string;
     title: string;
     location: string;
+    city: string;
     price: number;
     beds: number;
     baths: number;

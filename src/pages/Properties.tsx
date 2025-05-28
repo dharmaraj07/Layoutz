@@ -25,6 +25,7 @@ const Properties = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [propertyType, setPropertyType] = useState<string>('all');
   const [listingType, setListingType] = useState<string>('all');
+  const [selectedCity, setSelectedCity] = useState<string>('all');
 
   const {
     data: propsData,
@@ -66,15 +67,26 @@ const Properties = () => {
         listingType === 'sale' ? property.forSale : !property.forSale
       );
     }
+    if (selectedCity !== 'all') {
+    filtered = filtered.filter((property) =>
+    property.city.trim().toLowerCase() === selectedCity
+  );
+}
 
     setFilteredProperties(filtered);
-  }, [searchQuery, propertyType, listingType, properties]);
+  }, [searchQuery, propertyType, selectedCity,listingType, properties]);
 
   const clearFilters = () => {
     setSearchQuery('');
     setPropertyType('all');
     setListingType('all');
+    setSelectedCity('all'); 
   };
+const uniqueCities = Array.from(
+  new Set((propsData || [])
+    .map((p) => p.city.trim().toLowerCase())
+    .filter((city) => !!city))
+).sort();
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -149,6 +161,24 @@ const Properties = () => {
               </div>
             </div>
 
+           {/*   City Selector */}
+              <div className="flex flex-wrap justify-center gap-2 my-6">
+                <Button
+                  variant={selectedCity === 'all' ? 'default' : 'outline'}
+                  onClick={() => setSelectedCity('all')}
+                >
+                  All Cities
+                </Button>
+                {uniqueCities.map((city) => (
+                  <Button
+                    key={city}
+                    variant={selectedCity === city ? 'default' : 'outline'}
+                    onClick={() => setSelectedCity(city)}
+                  >
+                    {city.charAt(0).toUpperCase() + city.slice(1)}
+                  </Button>
+                ))}
+              </div>
             {/* Loading, Error, or Properties Grid */}
             {propsLoading ? (
               <p className="text-center py-16 text-muted-foreground">Loading properties...</p>

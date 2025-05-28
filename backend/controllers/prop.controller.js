@@ -3,17 +3,18 @@ import generateToken from '../utils/generateToken.js';
 
 export const props = async (req, res) => {
   try {
-    const { title, location, price, sqft, image,beds, baths,mobileImage,propimage, featured, forSale, reraID,type,projectArea, totalPlots,
+    const { title, location,city, price, sqft, image,beds, baths,mobileImage,propimage, featured, forSale, reraID,type,projectArea, totalPlots,
       approved,mapSrc,schools, college, transit, hospital, restaurants, youtubelink, residential,highlight, plotElitePrice,plotPremiumPrice} = req.body;
   
     // ✅ Basic validation
-    if (!title || !location || !price || !sqft || !type ||  !forSale|| !projectArea|| !totalPlots|| !approved || !mapSrc || !residential ||!propimage) {
+    if (!title || !location || !city ||!price || !sqft || !type ||  !forSale|| !projectArea|| !totalPlots|| !approved || !mapSrc || !residential ||!propimage) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
     const newProps = new Props({
       title,
       location,
+      city,
       beds,
       baths,
       price,

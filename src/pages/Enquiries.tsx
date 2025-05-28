@@ -196,6 +196,35 @@ const Enquiries = () => {
     throw new Error('Function not implemented.');
   }
 
+  const handleDuplicate = async (hero: Hero) => {
+  try {
+    // Create a new hero object by cloning and removing _id
+    const duplicatedHero: Omit<Hero, '_id'> = {
+      title: `${hero.title} (Copy)`,
+      image: [...(hero.image || [])],
+      mobileImage: [...(hero.mobileImage || [])],
+      type: hero.type,
+      link: hero.link,
+    };
+
+    await addHero(duplicatedHero);
+
+    toast({
+      title: 'Hero duplicated',
+      description: `A copy of "${hero.title}" was created.`,
+    });
+
+    setHeros(await getHero());
+  } catch (error) {
+    toast({
+      title: 'Error duplicating',
+      description: (error as Error).message,
+      variant: 'destructive',
+    });
+  }
+};
+
+
   return (
     <div className="min-h-screen flex flex-col items-center">
         <NavBarAdmin />
@@ -275,6 +304,9 @@ const Enquiries = () => {
                           </Button>
                           <Button variant="ghost" size="sm" onClick={() => handleOpenDeleteDialog(hero._id)}>
                             <Trash2 className="h-4 w-4 text-destructive" />
+                          </Button>
+                          <Button variant="ghost" size="sm" onClick={() => handleDuplicate(hero)}>
+                            <Plus className="h-4 w-4 text-green-600" />
                           </Button>
                         </div>
                       </TableCell>

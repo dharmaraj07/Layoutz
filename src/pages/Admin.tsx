@@ -50,6 +50,7 @@ const Admin = () => {
   const [currentProperty, setCurrentProperty] = useState<Partial<Property>>({
     title: '',
     location: '',
+    city:'',
     price: 0,
     beds: 0,
     baths: 0,
@@ -117,6 +118,7 @@ const { mutate: logout} = useMutation({
     setCurrentProperty({
       title: '',
       location: '',
+      city:'',
       price: 0,
       beds: 0,
       baths: 0,
@@ -251,6 +253,29 @@ const { mutate: logout} = useMutation({
   function getYouTubeThumbnail(youtubelink: string) {
     throw new Error('Function not implemented.');
   }
+const handleDuplicate = async (property: Property) => {
+  
+  const duplicatedProperty: Omit<Property, '_id'> = {
+    ...property,
+    title: property.title + " (Copy)",
+    schools: property.schools.map((s) => s + " (Copy)"),
+  };
+
+  try {
+    await addProperty(duplicatedProperty);
+    toast({
+      title: "Duplicated",
+      description: "The property has been duplicated successfully.",
+    });
+    setProperties(await getProperties());
+  } catch (error) {
+    toast({
+      title: "Error",
+      description: (error as Error).message || "Failed to duplicate the property.",
+      variant: "destructive",
+    });
+  }
+};
 
   return (
     <div className="min-h-screen flex flex-col items-center">
@@ -377,6 +402,9 @@ const { mutate: logout} = useMutation({
                       <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.mapSrc}</TableCell>
                       <TableCell className="w-[200px] max-w-[200px] truncate text-sm">
                         <div className="flex space-x-2">
+                          <Button variant="ghost" size="sm" onClick={() =>  handleDuplicate(property)}>
+                            <Plus className="h-4 w-4 text-green-600" />
+                           </Button>
                           <Button variant="ghost" size="sm" onClick={() => handleOpenEditDialog(property)}>
                             <Pencil className="h-4 w-4" />
                           </Button>
@@ -433,6 +461,16 @@ const { mutate: logout} = useMutation({
                     id="location"
                     name="location"
                     value={currentProperty.location || ''}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="col-span-2">
+                  <Label htmlFor="city">City *</Label>
+                  <Input
+                    id="city"
+                    name="city"
+                    value={currentProperty.city || ''}
                     onChange={handleInputChange}
                     required
                   />
