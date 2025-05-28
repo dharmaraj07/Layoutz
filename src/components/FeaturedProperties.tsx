@@ -77,7 +77,7 @@ const FeaturedProperties = () => {
           </Button>
         </div>
         {/* City Filter Dropdown */}
-        <div className="flex flex-wrap gap-2 justify-center mb-6">
+        <div className="flex flex-wrap gap-2 justify-center mb-6 mt-4">
           {allCities.map((c) => (
             <Button
               key={c}

@@ -67,7 +67,7 @@ const NavBar = () => {
         />
       )}
 
-<nav className="relative z-50 max-w-8xl mx-4 mt-10 pt-2 md:mx-20 flex h-20 items-center justify-between px-4 bg-white border shadow-lg rounded-b-lg">
+<nav className="relative z-50 max-w-8xl mx-4 mt-10 pt-1 md:mx-20 flex h-20 items-center justify-between px-4 bg-white border shadow-lg rounded-b-lg">
   {/* Logo - centered on mobile */}
   <div className="absolute inset-x-0 flex justify-center md:static md:justify-start">
     <Link
