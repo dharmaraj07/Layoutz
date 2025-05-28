@@ -10,31 +10,29 @@ import { useScrollAnimation } from './lib/animations';
 const FeaturedProperties = () => {
   const [ref, isVisible] = useScrollAnimation(0.1);
   const [properties, setProperties] = useState<Property[]>([]);
+  const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
+  const [city, setCity] = useState<string>('All');
+  const [allCities, setAllCities] = useState<string[]>([]);
 
   useEffect(() => {
-    // Fetch properties from localStorage
     const fetchProperties = async () => {
       const allProperties = await getProperties();
-      // Filter to show only featured properties or up to 5 properties if none are featured
       const featuredProps = allProperties.filter(p => p.featured);
-      
-      if (featuredProps.length > 0) {
-        setProperties(featuredProps.slice(0, 5)); // Show up to 5 featured properties
-      } else {
-        setProperties(allProperties.slice(0, 5)); // Show up to 5 properties if none are featured
-      }
+      const limitedProps = (featuredProps.length > 0 ? featuredProps : allProperties).slice(0, 5);
+      setProperties(limitedProps);
+
+      // Get unique cities
+      const cities = Array.from(new Set(allProperties.map(p => p.city).filter(Boolean)));
+      setAllCities(['All', ...cities]);
     };
 
     fetchProperties();
 
-    // Add event listener to refresh properties when localStorage changes
     const handleStorageChange = () => {
       fetchProperties();
     };
 
     window.addEventListener('storage', handleStorageChange);
-
-    // Custom event for when properties are updated via the Admin page
     window.addEventListener('propertiesUpdated', handleStorageChange);
 
     return () => {
@@ -43,33 +41,58 @@ const FeaturedProperties = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (city === 'All') {
+      setFilteredProperties(properties);
+    } else {
+      setFilteredProperties(properties.filter(p => p.city === city));
+    }
+  }, [city, properties]);
+
   return (
     <section 
       id="properties" 
       className="py-20 md:py-28 bg-secondary/30"
       ref={ref}
     >
-      <div className="container px-4 md:px-6 ">
+      <div className="container px-4 md:px-6">
         <div className={cn(
-          "flex flex-col md:flex-row justify-center  items-center md:items-end mb-12 transition-all duration-700 transform",
+          "flex flex-col md:flex-row justify-center items-center md:items-end mb-12 transition-all duration-700 transform",
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
-          <div className='flex flex-col justify-center text-center items-center'>
-            <div className='flex flex-col items-center'>
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 tracking-tight">Your Home. Your Dream. Your Choice</h2>
-            <h3 className="text-medium   mb-4 ">Choose your plot from India's Largest Real Estate Developer</h3></div>
+          <div className="flex flex-col items-center text-center">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 tracking-tight">
+              Your Home. Your Dream. Your Choice
+            </h2>
+            <h3 className="text-medium mb-4">
+              Choose your plot from India's Largest Real Estate Developer
+            </h3>
           </div>
-
         </div>
+
         <div className='flex flex-col justify-end text-center items-end'>
-        <Button variant="outline" className="mt-6 md:mt-0 group" onClick={() => window.location.href = '/properties'}>
+          <Button variant="outline" className="mt-6 md:mt-0 group" onClick={() => window.location.href = '/properties'}>
             View All Properties
             <ChevronRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Button>
-          </div>
-        {properties.length > 0 ? (
+        </div>
+        {/* City Filter Dropdown */}
+        <div className="flex flex-wrap gap-2 justify-center mb-6">
+          {allCities.map((c) => (
+            <Button
+              key={c}
+              variant={city === c ? "default" : "outline"}
+              onClick={() => setCity(c)}
+              className="capitalize"
+            >
+              {c}
+            </Button>
+          ))}
+        </div>
+
+        {filteredProperties.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-10">
-            {properties.map((property, index) => (
+            {filteredProperties.map((property, index) => (
               <PropertyCard
                 key={property._id}
                 {...property}
@@ -77,22 +100,14 @@ const FeaturedProperties = () => {
                   "transition-all duration-700 transform",
                   isVisible 
                     ? "opacity-100 translate-y-0" 
-                    : "opacity-0 translate-y-16",
-                  // Stagger the animations
-                  isVisible && {
-                    'transition-delay-100': index === 0,
-                    'transition-delay-200': index === 1,
-                    'transition-delay-300': index === 2,
-                    'transition-delay-400': index === 3,
-                    'transition-delay-500': index === 4,
-                  }
+                    : "opacity-0 translate-y-16"
                 )}
               />
             ))}
           </div>
         ) : (
           <div className="text-center py-12 bg-background/50 rounded-lg border border-dashed">
-            <p className="text-muted-foreground">No properties available. Add some in the admin panel.</p>
+            <p className="text-muted-foreground">No properties available in this city.</p>
             <Button variant="outline" className="mt-4" onClick={() => window.location.href = '/admin'}>
               Go to Admin Panel
             </Button>
