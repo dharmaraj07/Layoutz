@@ -11,6 +11,7 @@ const EnqSchema = new mongoose.Schema({
   visitDate:{type:Date, default:() => Date.now()},
   followUPDate:{type:Date, default:() => Date.now()},
   completed:{ type: String, enum: ['pending', 'completed'], default: 'pending' },
+  purchased:{ type: String, enum: ['pending', 'purchased'], default: 'pending' },
   createdAt:{type:Date, default:() => Date.now(), immutable:true},
 
 }); 

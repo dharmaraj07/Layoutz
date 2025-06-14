@@ -360,6 +360,28 @@ const handleSaveComment = async (id) => {
       });
     }
   };
+
+
+  const handleConfirmPurchaseEnq = async (enqId: string) => {
+    try {
+      await updateallEnq(enqId, { purchased: 'purchased' });
+      toast({ 
+        title: "Purchased Confirmed",
+        description: `Enquiry with ID ${enqId} is now confirmed.`,
+      });
+      setEnquiries(await getEnq());
+
+    } catch (error) {
+      console.error("Error confirming Enquiry:", error);
+      toast({
+        title: "Error",
+        description: "Could not confirm the Enquiry.",
+        variant: "destructive",
+      });
+    }
+  };
+
+
   const [sortConfig, setSortConfig] = useState({
     key: 'createdAt',
     direction: 'desc' as 'asc' | 'desc',
@@ -400,12 +422,20 @@ const handleSaveComment = async (id) => {
     });
   }, [visitors, searchQuery]);
   
+    const filteredEnquiries = useMemo( () => {
+    const query = searchQuery.toLowerCase();
   
-  const filteredEnquiries = enquiries.filter(enquiry =>
-    enquiry.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    enquiry.review.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    enquiry.createdAt
-  );
+    return enquiries.filter((e) => {
+      return (
+        e.name?.toLowerCase().includes(query) ||
+        e.phone?.toLowerCase().includes(query) ||
+        e.property?.toLowerCase().includes(query)
+      );
+    });
+  }, [enquiries, searchQuery]);
+
+
+
   
   const sortedVisitors = sortData(filteredVisitors);
   const sortedEnquiries = sortData(filteredEnquiries);
@@ -692,6 +722,13 @@ console.log(sortedPaginatedEnquiries)
                       <TableHead className="cursor-pointer">
                         Comments
                       </TableHead>
+                      <TableHead onClick={() => handleSort('purchased')} className="cursor-pointer">
+                        Purchase
+                        {sortConfig.key === 'purchased' && (
+                          <span>{sortConfig.direction === 'asc' ? ' ↑' : ' ↓'}</span>
+                        )}
+                  
+                      </TableHead>
                       <TableHead className="cursor-pointer">
                         Investment
                       </TableHead>
@@ -796,6 +833,24 @@ console.log(sortedPaginatedEnquiries)
                           </div>
                         )}
                       </TableCell>
+                                                <TableCell>
+                            {enq.purchased === "purchased" ? (
+                              <span className="text-green-600 font-semibold">Purchased</span>
+                            ) : (
+                              <div className="flex items-center gap-2">
+                                <span className="text-yellow-500 font-semibold">Pending</span>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  onClick={() => handleConfirmPurchaseEnq(enq._id)}
+                                  className="text-blue-600 border-blue-500"
+                                >
+                                  <Check className="h-4 w-4 mr-1" />
+                                  Confirm
+                                </Button>
+                              </div>
+                            )}
+                          </TableCell>
                       <TableCell className="w-[200px] max-w-[150px] truncate text-sm text-center">
                         <span className={`flex items-center px-2 py-1 rounded-l text-medium font-medium ${
                           enq.invest ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'
