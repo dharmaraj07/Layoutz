@@ -96,7 +96,7 @@ const ScheduleVisit = () => {
 
 
 const exportToExcel = () => {
-  if (filteredVisitors.length === 0) {
+  if (filteredEnquiries.length === 0) {
     toast({
       title: "No Visit updated",
       description: "Please try after sometime"
@@ -104,19 +104,20 @@ const exportToExcel = () => {
     return;
   }
 
-  const worksheetData = filteredVisitors.map(visit => ({
-    Name: visit.name,
-    Phone: visit.phone,
-    "Visit Date": new Date(visit.visitDate).toLocaleDateString('en-GB'),
-    People: visit.people,
-    Property: visit.property,
-    "Created At": new Date(visit.createdAt).toLocaleDateString('en-GB'),
-    Status: visit.status,
+  const worksheetData = filteredEnquiries.map(enq => ({
+    Name: enq.name,
+    Phone: enq.phone,
+    Property:enq.property,
+    Review:enq.review,
+    Attended:enq.completed,
+    "Visit Date": new Date(enq.visitTime).toLocaleDateString('en-GB'),
+    Comment:enq.comment,
+    Purchase: enq.purchased,
   }));
 
   const worksheet = XLSX.utils.json_to_sheet(worksheetData);
   const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Visitors");
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Enquiries");
 
   const excelBuffer = XLSX.write(workbook, {
     bookType: "xlsx",
@@ -124,24 +125,25 @@ const exportToExcel = () => {
   });
 
   const data = new Blob([excelBuffer], { type: "application/octet-stream" });
-  saveAs(data, "visitors.xlsx");
+  saveAs(data, "enquiry.xlsx");
 };
 
   const exportToPDF = () => {
     const doc = new jsPDF();
   
     doc.setFontSize(14);
-    doc.text('Visit Data', 14, 15);
+    doc.text('Enquiry Data', 14, 15);
   
-    const tableColumn = ['Name', 'Phone', 'Visit Date', 'People', 'Property', 'Requested Date', 'Status'];
-    const tableRows = filteredVisitors.map(visit => [
-      visit.name,
-      visit.phone,
-      new Date(visit.visitDate).toLocaleDateString('en-GB'),
-      visit.people,
-      visit.property,
-      new Date(visit.createdAt).toLocaleDateString('en-GB'),
-      visit.status,
+    const tableColumn = ['Name', 'Phone', 'Property','Review','Attended', 'Visit Date', 'Comment', 'Purchase'];
+    const tableRows = filteredEnquiries.map(enq => [
+    enq.name,
+    enq.phone,
+    enq.property,
+    enq.review,
+    enq.completed,
+    new Date(enq.visitTime).toLocaleDateString('en-GB'),
+    enq.comment,
+    enq.purchased,
     ]);
   
     autoTable(doc, {
@@ -150,8 +152,14 @@ const exportToExcel = () => {
       startY: 20,
     });
   
-    doc.save('visit_data.pdf');
+    doc.save('Enquiry_data.pdf');
   };
+
+
+  //Enquiry export
+
+
+  
 
   const handleOpenAddDialog = () => {
     setCurrentVisit({

@@ -1,12 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Phone, MessageSquare } from 'lucide-react';
 import { PropertyEnquiryDialog } from '@/components/PropertyEnquiryDialog';
 import { toast } from "@/hooks/use-toast";
 import { PropertyEnquiry } from '../PropertyEnquiry';
+import { Property } from '@/types/property';
+import { useAuth, useEnq, useProps, useVisit } from '@/hooks/useAuth';
 
-export function FloatingContactButtons() {
+
+interface FloatingContactButtonsProps {
+  property: Property;
+}
+
+export function FloatingContactButtons({ property }: FloatingContactButtonsProps) {
   const [isDialing, setIsDialing] = useState(false);
+  const { data: propsData } = useProps();
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [activeProperty, setActiveProperty] = useState<Property | null>(null);
   
+  
+    useEffect(() => {
+      if ( propsData ) {
+   
+        setProperties(propsData);
+
+      }
+    }, [propsData]);
+
+    console.log(properties)
+const titles = properties.map((p) => p.title).join(', ');
+console.log(titles)
+ const whatsappMessage = titles
+    ? `I'm interested in learning more about your D-layoutz ${titles} properties`
+    : "I'm interested in learning more about your D-layoutz properties";
+
+  const whatsappUrl = `https://wa.me/+917639302976?text=${encodeURIComponent(whatsappMessage)}`;
+
+
+
   const handleCall = () => {
     // Set the phone number you want to call
     const phoneNumber = "+917639302976"; // Replace with your actual phone number
@@ -32,7 +62,7 @@ export function FloatingContactButtons() {
   return (
     <div className="fixed right-0  top-1/3 z-50 flex flex-col gap-2 opacity-80">
       <a 
-        href="https://wa.me/+917639302976?text=I'm%20interested%20in%20learning%20more%20about%20your%20properties"
+        href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="bg-green-500 text-white p-3 rounded-l-lg hover:bg-green-600 transition-colors shadow-md flex"
