@@ -43,16 +43,16 @@ const AboutSection = () => {
             className="lg:pl-8"
           >
             <span className="inline-block px-3 py-1 bg-housing-100 text-housing-800 text-xs uppercase tracking-wider rounded-full mb-4">
-              About Layoutz Housing
+              About D Layoutz 
             </span>
             <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6 text-gray-900">
               We Help You Find The Perfect Home
             </h2>
             <p className="text-gray-600 mb-8">
-              At Layoutz Housing, we believe that finding the perfect home is about more than just square footage and location. It's about discovering a space that resonates with your lifestyle, aspirations, and vision for the future.
+              At D Layout , we believe that finding the perfect home is about more than just square footage and location. It's about discovering a space that resonates with your lifestyle, aspirations, and vision for the future.
             </p>
             <p className="text-gray-600 mb-8">
-              With over 20 years of experience in the real estate market, our team of dedicated professionals is committed to providing exceptional service and guidance throughout your property journey.
+              With over 10 years of experience in the real estate market, our team of dedicated professionals is committed to providing exceptional service and guidance throughout your property journey.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
@@ -63,13 +63,20 @@ const AboutSection = () => {
                 </div>
               ))}
             </div>
-
+            <div className='flex gap-4'>
             <a
               href="/about"
               className="inline-block px-6 py-3 bg-housing-700 hover:bg-housing-800 text-white font-medium rounded-md transition-all hover:shadow-lg"
             >
               Learn More About Us
             </a>
+            <a
+              href="/investor"
+              className="inline-block px-6 py-3 bg-green-700 hover:bg-housing-800 text-white font-medium rounded-md transition-all hover:shadow-lg"
+            >
+              For Investment Enquire Now
+            </a>
+            </div>
           </motion.div>
         </div>
       </div>

@@ -9,10 +9,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div>
             <Link to="/" className="text-2xl font-heading font-bold mb-6 inline-block">
-              Layoutz<span className="text-housing-400"></span>
+              D Layoutz<span className="text-housing-400"></span>
             </Link>
             <p className="text-gray-400 mb-6">
-              Providing exceptional real estate services and helping clients find their perfect properties since 2005.
+              Providing exceptional real estate services and helping clients find their perfect properties since 2015.
             </p>
             <div className="flex space-x-4">
               <SocialLink icon={<Facebook size={18} />} href="https://facebook.com" label="Facebook" />

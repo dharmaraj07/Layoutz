@@ -231,3 +231,21 @@
   transform: translateY(-20px);
   transition: opacity 500ms, transform 500ms;
 }
+
+
+
+
+@font-face {
+  font-family: 'Transcity';
+  src: url('/public/font/transcity.regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Rekal';
+  src: url('/public/font/rekalgera.regular.otf') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+}
+

@@ -87,8 +87,8 @@ const ProjectSearch = ({ onSearch, className }: ProjectSearchProps) => {
 
 
   return (
-    <section className="py-1 px-4 md:px-2 bg-transparent">
-      <div className="max-w-7.5xl mx-auto">
+    <section className="py-1 px-5 md:px-10 bg-transparent ">
+      <div className="max-w-7.5xl mx-auto ">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -102,8 +102,8 @@ const ProjectSearch = ({ onSearch, className }: ProjectSearchProps) => {
             </h2> 
           </div>
           
-          <form onSubmit={handleSearch} className="p-4 md:p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 bg-white bg-opacity-50">
-            <div className="space-y-2">
+          <form onSubmit={handleSearch} className="p-4 md:p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 bg-white bg-opacity-50 ">
+            <div className="space-y-2 ">
 
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
@@ -149,7 +149,7 @@ const ProjectSearch = ({ onSearch, className }: ProjectSearchProps) => {
               </Select>
             </div>
             
-            <div className="space-y-2">
+{/*             <div className="space-y-2">
 
               <Select value={budget} onValueChange={setBudget}>
                 <SelectTrigger id="budget" className="w-full">
@@ -163,30 +163,19 @@ const ProjectSearch = ({ onSearch, className }: ProjectSearchProps) => {
                   <SelectItem value="5000000+">$5,000,000+</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
+            </div> */}
             
             <div className="space-y-2">
 
               <button
                 type="submit"
-                className="inline-flex items-center justify-center px-6 py-2 bg-housing-700 hover:bg-housing-800 text-white font-medium rounded-md transition-all hover:shadow-lg w-full "
+                className="inline-flex items-center justify-center px-6 py-2 bg-black bg-housing-700 hover:bg-housing-800  text-white font-medium rounded-md transition-all hover:shadow-lg w-full "
               >
                 <Search className="mr-2 h-5 w-5" />
                 Search
               </button>
            
 
-            </div>
-            <div>
-                 <Button
-                type="button"
-                variant="outline"
-                onClick={handleReset}
-                className="inline-flex items-center justify-center px-6 py-2 text-housing-700 border border-housing-700 hover:bg-housing-100 font-medium rounded-md transition-all w-full "
-              >
-                <RotateCcw className="mr-2 h-5 w-5" />
-                Reset
-              </Button>
             </div>
           </form>
         </motion.div>

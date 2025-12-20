@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
+import InvestHero from '@/components/InvestHero'
+import propertymoney from '@/image/propertymoney.jpg'
 
 import { 
   LineChart, 
@@ -28,7 +30,11 @@ import {
   Award,
   Repeat,
   Building2,
-  ArrowUpRight
+  ArrowUpRight,
+  HandCoins,
+  CalendarRange,
+  ClipboardPenLine,
+  LandPlot
 } from 'lucide-react';
 import { 
   Dialog,
@@ -42,6 +48,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import InvestmentComparisonTable from '@/components/InvestmentComparisonTable';
+import { InvestmentEnquiry } from '@/components/InvestmentEnquiry';
+import Header from '@/components/Header';
 
 const Investor = () => {
   const [formData, setFormData] = useState({
@@ -98,106 +106,83 @@ const Investor = () => {
     { name: 'Q3', completed: 18, ongoing: 7 },
     { name: 'Q4', completed: 22, ongoing: 5 },
   ];
+  const property= [
+    { name: "Electricity Line", img :propertymoney },
+  ]
 
   return (
     <div className="flex flex-col min-h-screen">
       <NavBar />
+      <Header />
+      <InvestHero />
       
-      <main className="flex-grow pt-28 pb-16">
+      <main className="flex-grow pb-16">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-r from-housing-800 to-housing-700 text-white py-20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="md:w-2/3">
-              <h1 className="text-4xl md:text-5xl font-heading font-bold mb-6">
-                Invest With Confidence
-              </h1>
-              <p className="text-lg md:text-xl mb-8 text-housing-100">
-                Join our network of successful investors and benefit from our expertise in the real estate market with attractive returns and growth potential.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button 
-                      size="lg" 
-                      className="bg-white text-housing-800 hover:bg-housing-100 font-medium"
-                    >
-                      Start Investing Today
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                      <DialogTitle>Investment Enquiry</DialogTitle>
-                      <DialogDescription>
-                        Complete this form to learn more about our investment opportunities.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <form onSubmit={handleInvestmentSubmit} className="space-y-4 mt-4">
-                      <div className="space-y-2">
-                        <label htmlFor="name" className="text-sm font-medium">Full Name</label>
-                        <Input 
-                          id="name" 
-                          name="name" 
-                          value={formData.name} 
-                          onChange={handleInputChange} 
-                          placeholder="John Doe" 
-                          required 
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label htmlFor="email" className="text-sm font-medium">Email</label>
-                        <Input 
-                          id="email" 
-                          name="email" 
-                          type="email" 
-                          value={formData.email} 
-                          onChange={handleInputChange} 
-                          placeholder="john@example.com" 
-                          required 
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label htmlFor="phone" className="text-sm font-medium">Phone Number</label>
-                        <Input 
-                          id="phone" 
-                          name="phone" 
-                          value={formData.phone} 
-                          onChange={handleInputChange} 
-                          placeholder="+1 (555) 123-4567" 
-                          required 
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label htmlFor="investmentAmount" className="text-sm font-medium">Investment Amount (₹)</label>
-                        <Input 
-                          id="investmentAmount" 
-                          name="investmentAmount" 
-                          value={formData.investmentAmount} 
-                          onChange={handleInputChange} 
-                          placeholder="500000" 
-                          required 
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <label htmlFor="message" className="text-sm font-medium">Message</label>
-                        <Textarea 
-                          id="message" 
-                          name="message" 
-                          value={formData.message} 
-                          onChange={handleInputChange} 
-                          placeholder="I'm interested in investing..." 
-                          rows={3} 
-                        />
-                      </div>
-                      <Button type="submit" className="w-full">Submit Enquiry</Button>
-                    </form>
-                  </DialogContent>
-                </Dialog>
+        <section className="py-16 bg-white">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="flex flex-col lg:flex-row gap-8 items-center">
+      
+      {/* Image */}
+      <div className="w-full lg:w-1/2">
+        <img 
+          src={propertymoney}
+          alt="Investment Banner" 
+          className="w-full h-auto rounded-lg shadow-lg object-cover"
+        />
+      </div>
 
+      {/* Text & Step Cards */}
+      <div className="w-full lg:w-1/2">
+        {/* Heading */}
+        <div className="mb-8 text-center lg:text-left">
+          <h2 className="text-3xl md:text-4xl font-heading font-bold text-housing-800 mb-4">
+            Investment Process
+          </h2>
+          <p className="text-gray-600">
+            At Layoutz, we offer a unique Buy-Back Plan designed to provide you with flexible investment options and peace of mind. Whether you wish to retain your property, sell it back, or share the profits, our plan caters to your individual preferences.
+          </p>
+        </div>
+
+        {/* Step Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {[
+            {
+              icon: <HandCoins className="w-10 h-10 text-housing-600 mb-3" />,
+              title: "Minimum Investment",
+              description: "Start with an investment of ₹1 crore."
+            },
+            {
+              icon: <CalendarRange className="w-10 h-10 text-housing-600 mb-3" />,
+              title: "Agreement Duration",
+              description: "Enter into a 2-year agreement with us."
+            },
+            {
+              icon: <ClipboardPenLine className="w-10 h-10 text-housing-600 mb-3" />,
+              title: "Comprehensive Agreements",
+              description: "We provide both a sale agreement and a buy-back agreement for transparency and security."
+            },
+            {
+              icon: <LandPlot className="w-10 h-10 text-housing-600 mb-3" />,
+              title: "Land/Plot Selection",
+              description: "The selection can be decided by either the developer or the buyer."
+            }
+          ].map((step, index) => (
+            <div key={index} className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div className="flex items-start gap-3">
+                {step.icon}
+                <div>
+                  <h3 className="text-lg font-semibold text-housing-800">{step.title}</h3>
+                  <p className="text-gray-600 text-sm">{step.description}</p>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="absolute bottom-0 right-0 w-full h-20 bg-white" style={{ clipPath: 'polygon(0 100%, 100% 0, 100% 100%)' }}></div>
-        </section>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
         {/* Why Plots are Better Investment */}
         <section className="py-16 bg-gray-50">
@@ -248,10 +233,12 @@ const Investor = () => {
                   description: "Undeveloped land is often easier and quicker to sell than constructed properties, providing better liquidity."
                 }
               ].map((item, index) => (
-                <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                <div key={index} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 flex">
                   <div className="text-center">
+                    <div className="items-center flex gap-4 justify-center">
                     {item.icon}
                     <h3 className="text-xl font-bold text-housing-800 mb-3">{item.title}</h3>
+                    </div>
                     <p className="text-gray-600">{item.description}</p>
                   </div>
                 </div>
@@ -263,6 +250,7 @@ const Investor = () => {
         {/* Investment Highlights */}
         <section className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-heading font-bold text-housing-800 mb-4">
                 Why Invest With Us
@@ -295,10 +283,12 @@ const Investor = () => {
                   description: "Our team of professionals ensures optimal performance of your investments."
                 }
               ].map((item, index) => (
-                <div key={index} className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                <div key={index} className="bg-gray-50 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                   <div className="text-center">
+                    <div className="items-center flex gap-2 justify-center">
                     {item.icon}
                     <h3 className="text-xl font-bold text-housing-800 mb-3">{item.title}</h3>
+                    </div>
                     <p className="text-gray-600">{item.description}</p>
                   </div>
                 </div>
@@ -308,6 +298,7 @@ const Investor = () => {
         </section>
 
         {/* Buy Back Guarantee */}
+        {/*
         <section className="py-16 bg-housing-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-white rounded-lg shadow-xl overflow-hidden">
@@ -332,6 +323,7 @@ const Investor = () => {
                     ))}
                   </ul>
                 </div>
+                
                 <div className="p-8 md:p-12">
                   <h3 className="text-2xl font-heading font-bold text-housing-800 mb-4">How It Works</h3>
                   <ol className="space-y-6">
@@ -350,7 +342,7 @@ const Investor = () => {
                       },
                       {
                         title: "Receive Guaranteed Returns",
-                        description: "We repurchase your property at 120% of your original investment amount."
+                        description: "We repurchase your property at best."
                       }
                     ].map((item, index) => (
                       <li key={index} className="relative pl-10">
@@ -362,7 +354,7 @@ const Investor = () => {
                       </li>
                     ))}
                   </ol>
-                  <div className="mt-8">
+                   <div className="mt-8">
                     <Dialog>
                       <DialogTrigger asChild>
                         <Button className="bg-housing-600 hover:bg-housing-700">
@@ -392,15 +384,16 @@ const Investor = () => {
                         </div>
                       </DialogContent>
                     </Dialog>
-                  </div>
+                  </div> 
                 </div>
               </div>
             </div>
           </div>
         </section>
+        */}
 
         {/* Performance Metrics */}
-        <section className="py-16">
+{/*         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-heading font-bold text-housing-800 mb-4">
@@ -503,7 +496,7 @@ const Investor = () => {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Investment Process */}
         <section className="py-16 bg-gray-50">
@@ -561,7 +554,7 @@ const Investor = () => {
         </section>
 
         {/* Testimonials */}
-        <section className="py-16 bg-housing-800 text-white">
+{/*         <section className="py-16 bg-housing-800 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-heading font-bold mb-4">
@@ -605,10 +598,10 @@ const Investor = () => {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* CTA Section */}
-        <section className="py-16">
+        <section className="py-16 bg-black/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="bg-gradient-to-r from-housing-600 to-housing-800 rounded-lg p-8 md:p-12 shadow-xl text-white text-center">
               <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">
@@ -620,12 +613,11 @@ const Investor = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button 
-                      size="lg" 
-                      className="bg-white text-housing-800 hover:bg-housing-100 font-medium"
-                    >
-                      Schedule a Consultation
-                    </Button>
+                          <InvestmentEnquiry>
+                          <button
+                          >
+                          </button> 
+                        </InvestmentEnquiry>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[425px]">
                     <DialogHeader>
@@ -684,13 +676,6 @@ const Investor = () => {
                     </form>
                   </DialogContent>
                 </Dialog>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-white text-white hover:bg-white/10"
-                >
-                  Download Investor Brochure
-                </Button>
               </div>
             </div>
           </div>
