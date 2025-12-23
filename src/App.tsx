@@ -11,6 +11,7 @@ import CustAdmin from "./pages/CustAdmin";
 import AdminLogin from "./pages/AdminLogin";
 import ScheduleVisit from "./components/ScheduleVisit";
 import Enquiries from "./pages/Enquiries";
+import CRM from "./pages/CRM";
 import { FloatingContactButtons } from "./components/layout/FloatingContactButton";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { useAuth } from "./hooks/useAuth";
@@ -42,6 +43,7 @@ function App() {
         <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
         <Route path="/admin/customer" element={<ProtectedRoute><CustAdmin /></ProtectedRoute>} />
         <Route path="/admin/enquiries" element={<ProtectedRoute><Enquiries /></ProtectedRoute>} />
+        <Route path="/admin/crm" element={<ProtectedRoute><CRM /></ProtectedRoute>} />
         <Route path="/admin/visits" element={<ProtectedRoute><ScheduleVisit /></ProtectedRoute>} />
         <Route path="/admin/whatsapp" element={<ProtectedRoute><Whatsapp /></ProtectedRoute>} />
 

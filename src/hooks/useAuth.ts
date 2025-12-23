@@ -5,6 +5,7 @@ import { getCustomer } from '@/services/customerService';
 import { getVisit } from '@/services/visitService';
 import { getEnq } from '@/services/enqService';
 import { getHero } from '@/services/heroImage';
+import { getAgents } from '@/services/agentService';
 
 export const useAuth = () => {
   return useQuery({
@@ -58,6 +59,15 @@ export const useProps = () => {
     return useQuery({
       queryKey: ['hero'],
       queryFn: getHero,
+      retry: false,
+      refetchOnWindowFocus: false,
+    });
+  };
+
+  export const useAgents = () => {
+    return useQuery({
+      queryKey: ['agents'],
+      queryFn: getAgents,
       retry: false,
       refetchOnWindowFocus: false,
     });

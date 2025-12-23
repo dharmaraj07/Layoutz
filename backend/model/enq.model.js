@@ -5,6 +5,7 @@ const EnqSchema = new mongoose.Schema({
   name: { type: String, required: true },
   phone: { type: String, required: true },
   property: { type: String,  default: "" },
+  plotNumber: { type: String, default: "" },
   comment: { type: String,  default: "" },
   review:{ type: String, default: false },
   invest:{ type: Boolean, default: false },
@@ -12,6 +13,8 @@ const EnqSchema = new mongoose.Schema({
   followUPDate:{type:Date, default:() => Date.now()},
   completed:{ type: String, enum: ['pending', 'completed'], default: 'pending' },
   purchased:{ type: String, enum: ['pending', 'purchased'], default: 'pending' },
+  assignedAgent: { type: mongoose.Schema.Types.ObjectId, ref: 'Agent', default: null },
+  status: { type: String, enum: ['new', 'contacted', 'qualified', 'converted', 'lost', 'purchased', 'invalid'], default: 'new' },
   createdAt:{type:Date, default:() => Date.now(), immutable:true},
 
 }); 

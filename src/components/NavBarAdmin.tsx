@@ -94,7 +94,7 @@ const NavBarAdmin = () => {
         {/* Desktop Links */}
         <div className="hidden md:flex items-center space-x-6 text-base font-medium">
           <NavItem href="/admin" label="Property" isActive={isActive('/admin')} />
-          <NavItem href="/admin/visits" label="Visits" isActive={isActive('/admin/visits')} />
+          <NavItem href="/admin/crm" label="CRM" isActive={isActive('/admin/crm')} />
           <NavItem href="/admin/enquiries" label="Images" isActive={isActive('/admin/enquiries')} />
           <NavItem href="/admin/customer" label="Customers" isActive={isActive('/admin/customer')} />
           <NavItem href="/admin/whatsapp" label="Whatsapp" isActive={isActive('/admin/whatsapp')} />
@@ -125,7 +125,7 @@ const NavBarAdmin = () => {
           <div className="md:hidden absolute top-full -left-0 w-full bg-white shadow-md transition-all duration-300 z-40">
             <div className="flex flex-col px-6 py-4 space-y-4">
                     <MobileNavItem href="/admin" label="Property" onClick={() => setIsOpen(false)}  isActive={isActive('/admin')} />
-                    <MobileNavItem href="/admin/visits" label="Visits" onClick={() => setIsOpen(false)}  isActive={isActive('/admin/visits')} />
+                    <MobileNavItem href="/admin/crm" label="CRM" onClick={() => setIsOpen(false)}  isActive={isActive('/admin/crm')} />
                     <MobileNavItem href="/admin/enquiries" label="Images" onClick={() => setIsOpen(false)}  isActive={isActive('/admin/enquiries')} />
                     <MobileNavItem href="/admin/customer" label="Customers" onClick={() => setIsOpen(false)}  isActive={isActive('/admin/customer')} />
             </div>

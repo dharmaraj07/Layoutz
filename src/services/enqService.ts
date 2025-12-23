@@ -39,8 +39,8 @@ export const addEnq = async (enqs: Omit<Enq, '_id'>) => {
 };
 
 // Update an existing property
-export const updateEnq = async (enqs: Enq) => {
-  const res = await fetch(`${baseURL}/api/enq/updateEnq/${enqs._id}`, {
+export const updateEnq = async (id: string, enqs: Partial<Enq>) => {
+  const res = await fetch(`${baseURL}/api/enq/updateEnq/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(enqs),

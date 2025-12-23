@@ -8,6 +8,7 @@ import connectDB from './db/connectDB.js';
 import visitRoute from './routes/visit.route.js';
 import enqRoute from './routes/enq.route.js';
 import imageRoute from './routes/image.route.js';
+import agentRoute from './routes/agent.route.js';
 import cors from 'cors';
 import path from "path";
 
@@ -41,6 +42,7 @@ app.use('/api/cust', custRoute)
 app.use('/api/visit', visitRoute)
 app.use('/api/enq', enqRoute)
 app.use('/api/hero', imageRoute)
+app.use('/api/agent', agentRoute)
 
 if (process.env.NODE_ENV === "production")
   app.use(express.static(path.join(__dirname,"dist")))

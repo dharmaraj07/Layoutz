@@ -52,45 +52,39 @@ const AdminLogin = () => {
       }
     },
     onSuccess: () => {
-
       queryClient.invalidateQueries({ queryKey: ['authUser'] });
+      toast({
+        title: "Success",
+        description: "Login successful",
+      });
       navigate('/admin');
-      setisAdmin(true)
-      
+      setisAdmin(true);
+    },
+    onError: (error: any) => {
+      setError(error.message || 'Invalid username or password');
+      toast({
+        title: "Error",
+        description: error.message || 'Invalid username or password',
+        variant: "destructive",
+      });
     },
   });
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    loginMutation(formData);
+    
     if (!formData.username || !formData.password) {
-          setError('Please enter both username and password');
-          ;
-        }
-    
-        if (!isRobotVerified) {
-          setError('Please verify that you are not a robot');
-          return;
-        }
-    
-        setIsLoading(true);
-        setError(null);
-    
-        const result = login(formData.username, formData.password, isRobotVerified);
-        
-        setIsLoading(false);
-        
-        if (result.success) {
-          setSuccess(result.message);
-          toast({
-            title: "Success",
-            description: result.message,
-          });
-          
-          // Redirect to admin page after successful authentication
-          setTimeout(() => navigate('/admin'), 1500);
-        }
-    
+      setError('Please enter both username and password');
+      return;
+    }
+
+    if (!isRobotVerified) {
+      setError('Please verify that you are not a robot');
+      return;
+    }
+
+    setError(null);
+    loginMutation(formData);
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setformData({ ...formData, [e.target.name]: e.target.value });
