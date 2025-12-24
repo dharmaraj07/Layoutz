@@ -91,9 +91,29 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Better focus visibility for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-housing-500 ring-offset-2;
+  }
+
+  /* Improve button and interactive element accessibility */
+  button, a, [role="button"] {
+    @apply transition-all duration-200;
+  }
+
+  button:active, a:active, [role="button"]:active {
+    @apply scale-95;
   }
 }
 

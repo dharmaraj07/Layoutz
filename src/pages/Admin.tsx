@@ -278,138 +278,224 @@ const handleDuplicate = async (property: Property) => {
 };
 
   return (
-    <div className="min-h-screen flex flex-col items-center">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
         <NavBarAdmin />
 
-        <div className="w-full px-4 sm:px-6 md:px-8 py-20">
-        <div className="max-w-screen-xl mx-auto pt-10">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
-            <div className="flex items-center">
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-24">
+        <div className="max-w-screen-2xl mx-auto">
+          {/* Hero Section with Stats */}
+          <div className="bg-gradient-to-r from-housing-600 to-housing-800 rounded-2xl shadow-2xl p-8 mb-8 text-white">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+                    <img src={logo} alt="" className="w-8 h-8" />
+                  </div>
+                  <div>
+                    <h1 className="text-3xl md:text-4xl font-bold">Property Management</h1>
+                    <p className="text-housing-100 mt-1">Manage and oversee all your properties</p>
+                  </div>
+                </div>
+                
+                {/* Quick Stats */}
+                <div className="grid grid-cols-3 gap-4 mt-6">
+                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                    <p className="text-housing-100 text-sm">Total Properties</p>
+                    <p className="text-2xl font-bold mt-1">{properties.length}</p>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                    <p className="text-housing-100 text-sm">For Sale</p>
+                    <p className="text-2xl font-bold mt-1">{properties.filter(p => p.forSale).length}</p>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+                    <p className="text-housing-100 text-sm">Featured</p>
+                    <p className="text-2xl font-bold mt-1">{properties.filter(p => p.featured).length}</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex flex-col gap-3">
+                <Button 
+                  onClick={handleOpenAddDialog}
+                  size="lg"
+                  className="bg-white text-housing-700 hover:bg-housing-50 shadow-lg hover:shadow-xl transition-all"
+                >
+                  <Plus className="h-5 w-5 mr-2" />
+                  Add New Property
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={() => logout()}
+                  className="border-white/30 text-white hover:bg-white/10"
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Logout
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          {/* Search and Filters */}
+          <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="flex-1 relative">
+                <Input 
+                  placeholder="Search by title, location, or type..." 
+                  className="w-full h-12 pl-10 border-2 focus:border-housing-500"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Plus className="absolute left-3 top-3.5 h-5 w-5 text-gray-400 rotate-45" aria-hidden="true" />
+              </div>
               <Link to="/">
-                <Button variant="ghost" size="sm" className="mr-2">
+                <Button variant="outline" size="lg" className="h-12">
                   <ArrowLeft className="h-4 w-4 mr-2" />
-                  Back
+                  Back to Site
                 </Button>
               </Link>
-              <h1 className="text-3xl font-bold">Property Management</h1>
             </div>
-            
-            <div className="flex flex-col md:flex-row w-full md:w-auto gap-4">
-              <Input 
-                placeholder="Search properties..." 
-                className="w-full md:w-64"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Button onClick={handleOpenAddDialog}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Property
-              </Button>
-              <Button variant="outline" onClick={() => logout()}>
-                <LogOut className="h-4 w-4 mr-2" />
-                Logout
-              </Button>
-            </div>
+            {searchQuery && (
+              <p className="mt-3 text-sm text-gray-600">
+                Found <span className="font-semibold text-housing-700">{filteredProperties.length}</span> properties
+              </p>
+            )}
           </div>
           
           {filteredProperties.length > 0 ? (
-            <div className="border rounded-lg overflow-hidden">
-              <Table className='min-w-full table-auto border border-gray-200 '>
-                <TableHeader>
-                  <TableRow >
-                    <TableHead>Image</TableHead>
-                    <TableHead>Mobile Image</TableHead>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Location</TableHead>
-                    <TableHead>Price</TableHead>
-                    <TableHead>Plot Elite</TableHead>
-                    <TableHead>Plot Premium</TableHead>
-                    <TableHead>Type</TableHead>
-                    <TableHead>Residential Flag</TableHead>
-                    <TableHead>Beds</TableHead>
-                    <TableHead>Baths</TableHead>
-                    <TableHead>Sq.Ft</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Project Area</TableHead>
-                    <TableHead>Total Plots</TableHead>
-                    <TableHead>REAR ID</TableHead>
-                    <TableHead >DTCP & RERA Approved</TableHead>
-                    <TableHead>MapSrc</TableHead>
-                    <TableHead>Actions</TableHead>
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+              <div className="overflow-x-auto">
+              <Table className='min-w-full divide-y divide-gray-200'>
+                <TableHeader className="bg-gray-50">
+                  <TableRow>
+                    <TableHead className="font-semibold text-gray-900">Image</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Mobile</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Title</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Location</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Price</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Plot Elite</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Plot Premium</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Type</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Category</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Beds</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Baths</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Sq.Ft</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Status</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Project Area</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Total Plots</TableHead>
+                    <TableHead className="font-semibold text-gray-900">RERA ID</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Approved</TableHead>
+                    <TableHead className="font-semibold text-gray-900">Map</TableHead>
+                    <TableHead className="font-semibold text-gray-900 text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody className="bg-white divide-y divide-gray-200">
                   {filteredProperties.map((property) => (
-                    <TableRow key={property._id}>
-                      <TableCell >
+                    <TableRow key={property._id} className="hover:bg-gray-50 transition-colors">
+                      <TableCell>
                         {property.image ? (
-                          <div className="w-12 h-12 bg-cover bg-center rounded" 
-                               style={{ backgroundImage: `url(${property.image})` }}/>
+                          <div className="w-16 h-16 bg-cover bg-center rounded-lg shadow-sm ring-1 ring-gray-200 hover:ring-housing-500 transition-all" 
+                               style={{ backgroundImage: `url(${property.image})` }}
+                               title="Desktop image"
+                          />
                         ) : (
-                          <div className="w-12 h-12 bg-muted flex items-center justify-center rounded">
-                            <Image className="h-6 w-6 text-muted-foreground" />
+                          <div className="w-16 h-16 bg-gray-100 flex items-center justify-center rounded-lg">
+                            <Image className="h-8 w-8 text-gray-400" />
                           </div>
                         )}
                       </TableCell>
-                      <TableCell >
-                        {property.image ? (
-                          <div className="w-12 h-12 bg-cover bg-center rounded" 
-                               style={{ backgroundImage: `url(${property.mobileImage})` }}/>
+                      <TableCell>
+                        {property.mobileImage ? (
+                          <div className="w-16 h-16 bg-cover bg-center rounded-lg shadow-sm ring-1 ring-gray-200 hover:ring-housing-500 transition-all" 
+                               style={{ backgroundImage: `url(${property.mobileImage})` }}
+                               title="Mobile image"
+                          />
                         ) : (
-                          <div className="w-12 h-12 bg-muted flex items-center justify-center rounded">
-                            <Image className="h-6 w-6 text-muted-foreground" />
+                          <div className="w-16 h-16 bg-gray-100 flex items-center justify-center rounded-lg">
+                            <Image className="h-8 w-8 text-gray-400" />
                           </div>
                         )}
                       </TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.title}</TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.location}</TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">Rs.{property.price}</TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">Rs.{property.plotElitePrice}</TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">Rs.{property.plotPremiumPrice}</TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.type}</TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          property.residential ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                      <TableCell className="font-medium text-gray-900">
+                        <div className="max-w-[200px] truncate" title={property.title}>{property.title}</div>
+                      </TableCell>
+                      <TableCell className="text-gray-600">
+                        <div className="max-w-[180px] truncate" title={property.location}>{property.location}</div>
+                      </TableCell>
+                      <TableCell className="text-gray-900 font-semibold">₹{property.price.toLocaleString()}</TableCell>
+                      <TableCell className="text-gray-900">₹{property.plotElitePrice?.toLocaleString() || 'N/A'}</TableCell>
+                      <TableCell className="text-gray-900">₹{property.plotPremiumPrice?.toLocaleString() || 'N/A'}</TableCell>
+                      <TableCell>
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 capitalize">
+                          {property.type}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium ${
+                          property.residential ? 'bg-green-50 text-green-700' : 'bg-purple-50 text-purple-700'
                         }`}>
                           {property.residential ? 'Residential' : 'Commercial'}
                         </span>
                       </TableCell>                      
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.beds}</TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.baths}</TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.sqft} Sq.ft</TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          property.forSale ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
-                        }`}>
-                          {property.forSale ? 'For Sale' : 'For Rent'}
-                        </span>
-                        {property.featured && (
-                          <span className="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-                            Featured
+                      <TableCell className="text-gray-600">{property.beds}</TableCell>
+                      <TableCell className="text-gray-600">{property.baths}</TableCell>
+                      <TableCell className="text-gray-600">{property.sqft} sq.ft</TableCell>
+                      <TableCell>
+                        <div className="flex flex-col gap-1">
+                          <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium ${
+                            property.forSale ? 'bg-green-50 text-green-700' : 'bg-orange-50 text-orange-700'
+                          }`}>
+                            {property.forSale ? 'For Sale' : 'For Rent'}
                           </span>
-                        )}
+                          {property.featured && (
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-amber-50 text-amber-700">
+                              ⭐ Featured
+                            </span>
+                          )}
+                        </div>
                       </TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.projectArea}</TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.totalPlots}</TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.reraID}</TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          property.approved ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                      <TableCell className="text-gray-600">{property.projectArea || 'N/A'}</TableCell>
+                      <TableCell className="text-gray-600">{property.totalPlots || 'N/A'}</TableCell>
+                      <TableCell className="text-gray-600">
+                        <div className="max-w-[150px] truncate" title={property.reraID}>{property.reraID || 'N/A'}</div>
+                      </TableCell>
+                      <TableCell>
+                        <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium ${
+                          property.approved ? 'bg-green-50 text-green-700' : 'bg-yellow-50 text-yellow-700'
                         }`}>
-                          {property.approved ? 'Approved' : 'Pending'}
+                          {property.approved ? '✓ Approved' : '⏳ Pending'}
                         </span>
                       </TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">{property.mapSrc}</TableCell>
-                      <TableCell className="w-[200px] max-w-[200px] truncate text-sm">
-                        <div className="flex space-x-2">
-                          <Button variant="ghost" size="sm" onClick={() =>  handleDuplicate(property)}>
-                            <Plus className="h-4 w-4 text-green-600" />
-                           </Button>
-                          <Button variant="ghost" size="sm" onClick={() => handleOpenEditDialog(property)}>
+                      <TableCell className="text-gray-600">
+                        <div className="max-w-[100px] truncate" title={property.mapSrc}>{property.mapSrc ? 'Yes' : 'No'}</div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center justify-end gap-1">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={() => handleDuplicate(property)}
+                            className="hover:bg-green-50 hover:text-green-600"
+                            title="Duplicate property"
+                          >
+                            <Plus className="h-4 w-4" />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={() => handleOpenEditDialog(property)}
+                            className="hover:bg-blue-50 hover:text-blue-600"
+                            title="Edit property"
+                          >
                             <Pencil className="h-4 w-4" />
                           </Button>
-                          <Button variant="ghost" size="sm" onClick={() => handleOpenDeleteDialog(property._id)}>
-                            <Trash2 className="h-4 w-4 text-destructive" />
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            onClick={() => handleOpenDeleteDialog(property._id)}
+                            className="hover:bg-red-50 hover:text-red-600"
+                            title="Delete property"
+                          >
+                            <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
                       </TableCell>
@@ -417,15 +503,28 @@ const handleDuplicate = async (property: Property) => {
                   ))}
                 </TableBody>
               </Table>
+              </div>
             </div>
           ) : (
-            <div className="text-center py-10 border rounded-lg">
-              <p className="text-lg text-muted-foreground mb-4">
-                {searchQuery ? 'No properties match your search.' : 'No properties have been added yet.'}
+            <div className="bg-white rounded-xl shadow-sm p-12 text-center">
+              <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Image className="h-10 w-10 text-gray-400" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                {searchQuery ? 'No properties found' : 'No properties yet'}
+              </h3>
+              <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                {searchQuery 
+                  ? `We couldn't find any properties matching "${searchQuery}". Try adjusting your search.`
+                  : 'Get started by adding your first property to the system.'}
               </p>
-              <Button onClick={handleOpenAddDialog}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Your First Property
+              <Button 
+                onClick={searchQuery ? () => setSearchQuery('') : handleOpenAddDialog}
+                size="lg"
+                className="bg-housing-600 hover:bg-housing-700"
+              >
+                <Plus className="h-5 w-5 mr-2" />
+                {searchQuery ? 'Clear Search' : 'Add Your First Property'}
               </Button>
             </div>
           )}

@@ -61,29 +61,36 @@ const FeaturedProperties = () => {
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
           <div className="flex flex-col items-center text-center">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 tracking-tight">
+            <h2 className="text-3xl md:text-5xl font-display font-bold mb-4 tracking-tight text-gray-900">
               Your Home. Your Dream. Your Choice
             </h2>
-            <h3 className="text-medium mb-4">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl">
               Choose your plot from India's Largest Real Estate Developer
-            </h3>
+            </p>
           </div>
         </div>
 
         <div className='flex flex-col justify-end text-center items-end'>
-          <Button variant="outline" className="mt-6 md:mt-0 group" onClick={() => window.location.href = '/properties'}>
+          <Button 
+            variant="outline" 
+            className="mt-6 md:mt-0 group hover:bg-housing-700 hover:text-white transition-all" 
+            onClick={() => window.location.href = '/properties'}
+            aria-label="View all available properties"
+          >
             View All Properties
             <ChevronRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Button>
         </div>
         {/* City Filter Dropdown */}
-        <div className="flex flex-wrap gap-2 justify-center mb-6 mt-4">
+        <div className="flex flex-wrap gap-3 justify-center mb-6 mt-8" role="group" aria-label="Filter properties by city">
           {allCities.map((c) => (
             <Button
               key={c}
               variant={city === c ? "default" : "outline"}
               onClick={() => setCity(c)}
-              className="capitalize"
+              className="capitalize min-w-[100px] transition-all hover:scale-105"
+              aria-pressed={city === c}
+              aria-label={`Filter by ${c}`}
             >
               {c}
             </Button>
@@ -102,14 +109,21 @@ const FeaturedProperties = () => {
                     ? "opacity-100 translate-y-0" 
                     : "opacity-0 translate-y-16"
                 )}
+                style={{ transitionDelay: `${index * 100}ms` }}
               />
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 bg-background/50 rounded-lg border border-dashed">
-            <p className="text-muted-foreground">No properties available in this city.</p>
-            <Button variant="outline" className="mt-4" onClick={() => window.location.href = '/admin'}>
-              Go to Admin Panel
+          <div className="text-center py-16 bg-background/50 rounded-xl border-2 border-dashed border-gray-300">
+            <div className="text-6xl mb-4">🏘️</div>
+            <h3 className="text-2xl font-bold mb-2 text-gray-900">No properties available</h3>
+            <p className="text-muted-foreground mb-6">No properties found in {city}. Try selecting a different city.</p>
+            <Button 
+              variant="default" 
+              onClick={() => setCity('All')}
+              className="mb-4"
+            >
+              Show All Cities
             </Button>
           </div>
         )}

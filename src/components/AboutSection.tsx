@@ -63,16 +63,18 @@ const AboutSection = () => {
                 </div>
               ))}
             </div>
-            <div className='flex gap-4'>
+            <div className='flex flex-col sm:flex-row gap-4'>
             <a
               href="/about"
-              className="inline-block px-6 py-3 bg-housing-700 hover:bg-housing-800 text-white font-medium rounded-md transition-all hover:shadow-lg"
+              className="inline-flex items-center justify-center px-6 py-3 bg-housing-700 hover:bg-housing-800 text-white font-medium rounded-md transition-all hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-housing-500 focus:ring-offset-2"
+              aria-label="Learn more about D Layoutz"
             >
               Learn More About Us
             </a>
             <a
               href="/investor"
-              className="inline-block px-6 py-3 bg-green-700 hover:bg-housing-800 text-white font-medium rounded-md transition-all hover:shadow-lg"
+              className="inline-flex items-center justify-center px-6 py-3 bg-green-700 hover:bg-green-800 text-white font-medium rounded-md transition-all hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+              aria-label="Investment enquiry for properties"
             >
               For Investment Enquire Now
             </a>

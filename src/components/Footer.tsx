@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white pt-16 pb-6">
+    <footer className="bg-gray-900 text-white pt-16 pb-6" role="contentinfo" aria-label="Site footer">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           <div>
@@ -63,12 +63,12 @@ const Footer = () => {
               <ContactItem 
                 icon={<Phone className="w-5 h-5 text-housing-500" />} 
                 text="+91 7639302976"
-                href="+91 7639302976"
+                href="tel:+917639302976"
               />
               <ContactItem 
                 icon={<Mail className="w-5 h-5 text-housing-500" />} 
                 text="dharmaraj.mech07@gmail.com"
-                href="dharmaraj.mech07@gmail.com"
+                href="mailto:dharmaraj.mech07@gmail.com"
               />
               <ContactItem 
                 icon={<Clock className="w-5 h-5 text-housing-500" />} 
@@ -148,9 +148,9 @@ interface ContactItemProps {
 
 const ContactItem = ({ icon, text, href }: ContactItemProps) => {
   const content = (
-    <div className="flex items-start">
-      <div className="flex-shrink-0 mt-1">{icon}</div>
-      <div className="ml-3 text-gray-400">{text}</div>
+    <div className="flex items-start group">
+      <div className="flex-shrink-0 mt-1" aria-hidden="true">{icon}</div>
+      <div className="ml-3 text-gray-400 group-hover:text-white transition-colors">{text}</div>
     </div>
   );
 
@@ -159,7 +159,8 @@ const ContactItem = ({ icon, text, href }: ContactItemProps) => {
       <li>
         <a 
           href={href} 
-          className="hover:text-white transition-colors"
+          className="hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-housing-500 focus:ring-offset-2 focus:ring-offset-gray-900 rounded"
+          {...(href.startsWith('http') && { target: '_blank', rel: 'noopener noreferrer' })}
         >
           {content}
         </a>

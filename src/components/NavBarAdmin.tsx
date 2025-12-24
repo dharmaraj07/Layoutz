@@ -67,49 +67,48 @@ const NavBarAdmin = () => {
         />
       )}
 
-<nav className="relative z-50 max-w-8xl mx-4  pt-2 md:mx-20 flex h-20 items-center justify-between px-4 bg-white border shadow-lg rounded-b-lg">
-  {/* Logo - centered on mobile */}
-  <div className="absolute inset-x-0 flex justify-center md:static md:justify-start">
+<nav className="relative z-50 max-w-8xl mx-4 mt-2 md:mx-20 flex h-20 items-center justify-between px-6 bg-white border-2 border-gray-200 shadow-xl rounded-2xl backdrop-blur-sm bg-white/95">
+  {/* Logo */}
+  <div className="flex-shrink-0 z-50">
     <Link
       to="/"
-      className="text-2xl md:text-4xl flex items-center font-heading font-bold text-housing-800 gap-3 hover:scale-105 transition-transform"
+      className="text-xl md:text-3xl flex items-center font-heading font-bold text-housing-800 gap-2 md:gap-3 hover:scale-105 transition-transform group"
+      aria-label="Layoutz Admin Home"
     >
-      <img src={logo} alt="Logo" className="w-10 h-10" />
-      <span className="-mx-2">Layoutz</span>
+      <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-housing-600 to-housing-800 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow">
+        <img src={logo} alt="Layoutz Logo" className="w-6 h-6 md:w-7 md:h-7" />
+      </div>
+      <span className="bg-gradient-to-r from-housing-700 to-housing-900 bg-clip-text text-transparent">Layoutz</span>
+      <span className="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-md">ADMIN</span>
     </Link>
   </div>
 
-  {/* Hamburger for mobile - visible only on mobile */}
+  {/* Hamburger for mobile */}
   <div className="md:hidden ml-auto z-50">
-        {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden text-housing-800 p-2 z-50"
+          className="md:hidden text-housing-800 p-2 z-50 hover:bg-housing-50 rounded-lg transition-colors"
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
+          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isOpen}
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
   </div>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center space-x-6 text-base font-medium">
-          <NavItem href="/admin" label="Property" isActive={isActive('/admin')} />
+        <div className="hidden md:flex items-center space-x-2 text-sm font-semibold">
+          <NavItem href="/admin" label="Properties" isActive={isActive('/admin')} exact />
           <NavItem href="/admin/crm" label="CRM" isActive={isActive('/admin/crm')} />
-          <NavItem href="/admin/enquiries" label="Images" isActive={isActive('/admin/enquiries')} />
+          <NavItem href="/admin/enquiries" label="Gallery" isActive={isActive('/admin/enquiries')} />
           <NavItem href="/admin/customer" label="Customers" isActive={isActive('/admin/customer')} />
-          <NavItem href="/admin/whatsapp" label="Whatsapp" isActive={isActive('/admin/whatsapp')} />
+          <NavItem href="/admin/whatsapp" label="WhatsApp" isActive={isActive('/admin/whatsapp')} />
         </div>
 
-        {/* Desktop Right Section */}
-        <div className="hidden md:flex items-center space-x-4">
-          <a
-            href="tel:+91 7639302976"
-            className="flex items-center text-sm text-housing-800 hover:text-housing-600 transition-colors"
-          >
-            <Phone className="w-4 h-4 mr-2" />
-            <span>+91 7639302976</span>
-          </a>
-          <ScheduleVisitDialog />
+        {/* Desktop Right Section - Hidden for cleaner look */}
+        <div className="hidden md:flex items-center space-x-3">
+          <Link to="/" className="text-sm text-gray-600 hover:text-housing-600 transition-colors font-medium">
+            View Site
+          </Link>
         </div>
 
 
@@ -117,17 +116,40 @@ const NavBarAdmin = () => {
         {/* Mobile Menu */}
         <div
   className={cn(
-    'fixed top-0 right-0 h-full w-72 max-w-full bg-white shadow-lg z-100 transition-all duration-300 ease-in-out md:hidden',
+    'fixed top-0 right-0 h-full w-80 max-w-full bg-white shadow-2xl z-[60] transition-all duration-300 ease-in-out md:hidden border-l-2 border-gray-200',
     isOpen ? 'translate-x-0' : 'translate-x-full'
   )}
+  role="dialog"
+  aria-modal="true"
+  aria-label="Admin navigation menu"
 >
         {isOpen && (
-          <div className="md:hidden absolute top-full -left-0 w-full bg-white shadow-md transition-all duration-300 z-40">
-            <div className="flex flex-col px-6 py-4 space-y-4">
+          <div className="md:hidden h-full w-full bg-gradient-to-br from-white to-gray-50">
+            <div className="flex flex-col h-full">
+              {/* Mobile menu header */}
+              <div className="flex justify-between items-center p-6 border-b border-gray-200">
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 bg-gradient-to-br from-housing-600 to-housing-800 rounded-lg flex items-center justify-center">
+                    <img src={logo} alt="" className="w-6 h-6" />
+                  </div>
+                  <span className="font-bold text-xl text-housing-800">Admin Panel</span>
+                </div>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  aria-label="Close menu"
+                >
+                  <X size={24} className="text-gray-600" />
+                </button>
+              </div>
+              
+              {/* Mobile menu items */}
+              <div className="flex flex-col px-6 py-6 space-y-2 flex-1 overflow-y-auto">
                     <MobileNavItem href="/admin" label="Property" onClick={() => setIsOpen(false)}  isActive={isActive('/admin')} />
                     <MobileNavItem href="/admin/crm" label="CRM" onClick={() => setIsOpen(false)}  isActive={isActive('/admin/crm')} />
                     <MobileNavItem href="/admin/enquiries" label="Images" onClick={() => setIsOpen(false)}  isActive={isActive('/admin/enquiries')} />
                     <MobileNavItem href="/admin/customer" label="Customers" onClick={() => setIsOpen(false)}  isActive={isActive('/admin/customer')} />
+              </div>
             </div>
           </div>
         )}
@@ -142,27 +164,25 @@ interface NavItemProps {
   label: string;
   isActive?: boolean;
   isDropdown?: boolean;
+  exact?: boolean;
 }
 
-const NavItem = ({ href, label, isActive = false, isDropdown = false }: NavItemProps) => {
+const NavItem = ({ href, label, isActive = false, isDropdown = false, exact = false }: NavItemProps) => {
   return (
     <Link
       to={href}
       className={cn(
-        'relative px-3 py-2 font-bold text-lg  transition-colors group',
-        isActive ? 'text-housing-600' : 'text-housing-800 hover:text-housing-600'
+        'relative px-4 py-2 rounded-lg font-semibold transition-all group',
+        isActive 
+          ? 'bg-housing-600 text-white shadow-md' 
+          : 'text-gray-700 hover:bg-housing-50 hover:text-housing-700'
       )}
+      aria-current={isActive ? 'page' : undefined}
     >
-      <span className="flex items-center">
+      <span className="flex items-center gap-1">
         {label}
         {isDropdown && <ChevronDown className="ml-1 w-4 h-4" />}
       </span>
-      <span
-        className={cn(
-          'absolute bottom-0 left-0 h-0.5 bg-housing-600 transition-all duration-300',
-          isActive ? 'w-full' : 'w-0 group-hover:w-full'
-        )}
-      ></span>
     </Link>
   );
 };
@@ -180,11 +200,20 @@ const MobileNavItem = ({ href, label, onClick, isActive = false }: MobileNavItem
       to={href}
       onClick={onClick}
       className={cn(
-        'text-lg font-heading font-medium transition-colors',
-        isActive ? 'text-housing-600' : 'text-housing-800 hover:text-housing-600'
+        'text-base font-semibold transition-all py-3 px-4 rounded-xl block',
+        isActive 
+          ? 'bg-housing-600 text-white shadow-lg' 
+          : 'text-gray-700 hover:bg-housing-50 hover:text-housing-700 active:scale-95'
       )}
+      aria-current={isActive ? 'page' : undefined}
     >
-      {label}
+      <div className="flex items-center gap-3">
+        <div className={cn(
+          'w-2 h-2 rounded-full transition-all',
+          isActive ? 'bg-white' : 'bg-gray-400'
+        )} />
+        {label}
+      </div>
     </Link>
   );
 };

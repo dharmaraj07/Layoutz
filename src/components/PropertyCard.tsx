@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import { useLazyImage } from '@/components/lib/animations';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { MapPin } from 'lucide-react';
+import { MapPin, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Property } from '@/types/property';
 
@@ -35,10 +35,12 @@ const PropertyCard = ({
   return (
     <div 
       className={cn(
-        "property-card overflow-hidden rounded-xl border bg-card text-card-foreground group shadow-sm",
+        "property-card overflow-hidden rounded-xl border bg-card text-card-foreground group shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1",
         featured && "md:co1-2",
         className
       )}
+      role="article"
+      aria-label={`Property: ${title}`}
     >
       <div className="flex flex-col">
         <div className="relative overflow-hidden aspect-[16/10]">
@@ -47,14 +49,17 @@ const PropertyCard = ({
               "absolute inset-0 bg-muted/20 backdrop-blur-sm transition-opacity duration-500",
               imageLoaded ? "opacity-0" : "opacity-100"
             )}
+            aria-hidden="true"
           />
           <div 
-            className="property-image h-full w-full bg-cover bg-center transition-transform duration-700"
+            className="property-image h-full w-full bg-cover bg-center transition-all duration-700 group-hover:scale-110"
             style={{
               backgroundImage: `url(${imageSrc})`,
               opacity: imageLoaded ? 1 : 0,
-              transition: 'opacity 0.5s ease-in-out'
+              transition: 'opacity 0.5s ease-in-out, transform 0.7s ease-out'
             }}
+            role="img"
+            aria-label={`Image of ${title}`}
           />
           {featured && (
             <Badge className="absolute top-4 left-4 bg-primary/90 hover:bg-primary">
@@ -136,8 +141,18 @@ const PropertyCard = ({
 
           
           <div className="mt-4 pt-4 border-t">
-            <Button variant="default" asChild className="w-full">
-              <Link to={`/property/${encodeURIComponent(title)}`}>Know More</Link>
+            <Button 
+              variant="default" 
+              asChild 
+              className="w-full group hover:bg-housing-800 transition-all hover:shadow-lg"
+            >
+              <Link 
+                to={`/property/${encodeURIComponent(title)}`}
+                aria-label={`View details for ${title}`}
+              >
+                Know More
+                <ChevronRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
             </Button>
           </div>
         </div>

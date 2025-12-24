@@ -108,14 +108,15 @@ const uniqueCities = Array.from(
             </div>
 
             {/* Search and Filters */}
-            <div className="flex flex-col md:flex-row gap-4 mb-8 w-full ">
-              <div className="relative flex-grow ">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="flex flex-col md:flex-row gap-4 mb-8 w-full" role="search" aria-label="Property search and filters">
+              <div className="relative flex-grow">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" aria-hidden="true" />
                 <Input 
-                  placeholder="Search properties..."
-                  className="pl-10 bg-white/50 border-2 border-gray-300 shadow-sm"
+                  placeholder="Search properties by title, location, or type..."
+                  className="pl-10 bg-white border-2 border-gray-300 shadow-sm hover:border-housing-400 focus:border-housing-600 transition-colors"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
+                  aria-label="Search properties"
                 />
               </div>
 
@@ -162,10 +163,12 @@ const uniqueCities = Array.from(
             </div>
 
            {/*   City Selector */}
-              <div className="flex flex-wrap justify-center gap-2 my-6">
+              <div className="flex flex-wrap justify-center gap-3 my-8" role="group" aria-label="Filter by city">
                 <Button
                   variant={selectedCity === 'all' ? 'default' : 'outline'}
                   onClick={() => setSelectedCity('all')}
+                  className="min-w-[100px] transition-all hover:scale-105"
+                  aria-pressed={selectedCity === 'all'}
                 >
                   All Cities
                 </Button>
@@ -174,6 +177,8 @@ const uniqueCities = Array.from(
                     key={city}
                     variant={selectedCity === city ? 'default' : 'outline'}
                     onClick={() => setSelectedCity(city)}
+                    className="min-w-[100px] capitalize transition-all hover:scale-105"
+                    aria-pressed={selectedCity === city}
                   >
                     {city.charAt(0).toUpperCase() + city.slice(1)}
                   </Button>
@@ -181,9 +186,22 @@ const uniqueCities = Array.from(
               </div>
             {/* Loading, Error, or Properties Grid */}
             {propsLoading ? (
-              <p className="text-center py-16 text-muted-foreground">Loading properties...</p>
+              <div className="flex flex-col items-center justify-center py-20 space-y-4">
+                <div className="w-16 h-16 border-4 border-housing-600 border-t-transparent rounded-full animate-spin" />
+                <p className="text-center text-lg font-medium text-housing-800">Discovering amazing properties for you...</p>
+              </div>
             ) : propsError ? (
-              <p className="text-center py-16 text-red-500">Failed to load properties.</p>
+              <div className="flex flex-col items-center justify-center py-20 space-y-4 bg-red-50 rounded-xl border border-red-200 px-6">
+                <div className="text-6xl">⚠️</div>
+                <h3 className="text-2xl font-bold text-gray-900">Unable to Load Properties</h3>
+                <p className="text-center text-gray-600 max-w-md">We're experiencing technical difficulties. Please try refreshing the page.</p>
+                <Button 
+                  onClick={() => window.location.reload()}
+                  className="mt-4"
+                >
+                  Refresh Page
+                </Button>
+              </div>
             ) : filteredProperties.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 {filteredProperties.map((property) => (
@@ -191,21 +209,22 @@ const uniqueCities = Array.from(
                 ))}
               </div>
             ) : (
-              <div className="text-center py-16 bg-background/50 rounded-lg border border-dashed">
-                <h3 className="text-xl font-medium mb-2">No properties found</h3>
-                {searchQuery || propertyType !== 'all' || listingType !== 'all' ? (
-                  <p className="text-muted-foreground">
-                    Try adjusting your search filters to find what you're looking for.
-                  </p>
+              <div className="text-center py-20 bg-background/50 rounded-xl border-2 border-dashed border-gray-300">
+                <div className="text-6xl mb-4">🔍</div>
+                <h3 className="text-2xl font-bold mb-3 text-gray-900">No properties found</h3>
+                {searchQuery || propertyType !== 'all' || listingType !== 'all' || selectedCity !== 'all' ? (
+                  <>
+                    <p className="text-muted-foreground mb-4 max-w-md mx-auto">
+                      We couldn't find any properties matching your criteria. Try adjusting your filters.
+                    </p>
+                    <Button variant="default" onClick={clearFilters}>
+                      Clear All Filters
+                    </Button>
+                  </>
                 ) : (
-                  <p className="text-muted-foreground">
-                    There are no properties available at the moment.
+                  <p className="text-muted-foreground max-w-md mx-auto">
+                    There are no properties available at the moment. Please check back later.
                   </p>
-                )}
-                {properties.length > 0 && (searchQuery || propertyType !== 'all' || listingType !== 'all') && (
-                  <Button variant="outline" className="mt-4" onClick={clearFilters}>
-                    Clear All Filters
-                  </Button>
                 )}
               </div>
             )}

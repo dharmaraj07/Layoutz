@@ -9,40 +9,44 @@ import { Button } from './ui/button';
 
 const CallToAction = () => {
   return (
-    <section className="px-4 py-20 md:py-28 bg-housing-700 relative overflow-hidden ">
+    <section className="px-4 py-20 md:py-32 bg-housing-700 relative overflow-hidden" aria-labelledby="cta-heading">
       {/* Background pattern */}
-      <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-10" aria-hidden="true">
         <div className="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNi41NzEgNS4yOWMtLjI5My0uMTkzLS42ODktLjE1Mi0uOTM3LjA5NmwtMy41NzEgMy41NzFhLjc1Ljc1IDAgMDAgMCAxLjA2MWwzLjU3MSAzLjU3MWEuNzUxLjc1MSAwIDAwMS4wNjEgMGwzLjU3MS0zLjU3MWEuNzUuNzUgMCAwMDAtMS4wNjFsLTMuNTcxLTMuNTcxYS43NS43NSAwIDAwLS4xMjQtLjA5NnoiIGZpbGw9ImN1cnJlbnRDb2xvciIgZmlsbC1ydWxlPSJub256ZXJvIi8+PC9nPjwvc3ZnPg==')]"></div>
       </div>
       
-      <div className="max-w-7xl mx-auto relative flex justify-center ">
+      <div className="max-w-7xl mx-auto relative flex justify-center text-center">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
             viewport={{ once: true, margin: '-100px' }}
+            className="max-w-3xl"
           >
-            <h2 className="text-3xl md:text-4xl font-heading font-bold text-white mb-6">
+            <h2 id="cta-heading" className="text-3xl md:text-5xl font-heading font-bold text-white mb-6 leading-tight">
               Ready to Find Your Dream Villa Plots?
             </h2>
-            <p className="text-housing-100 text-lg mb-8 max-w-lg">
+            <p className="text-housing-100 text-lg md:text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
               Connect with our real estate experts and start your journey to finding the perfect property. 
               We're here to guide you through every step of the process.
             </p>
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <PropertyEnquiry>
               <button
                aria-label="Enquire Now"
               >
               </button>
             </PropertyEnquiry>
-              <div className="bg-primary text-white flex text-medium rounded-r-lg hover:bg-primary/90 transition-colors shadow-md">
-              <Link to="/properties">
-                <Button>
+              <Link to="/properties" className="w-full sm:w-auto">
+                <Button 
+                  size="lg" 
+                  variant="secondary"
+                  className="w-full sm:w-auto text-lg px-8 py-6 hover:scale-105 transition-transform focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-housing-700"
+                >
                   Browse Properties
+                  <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
-              </div>
               </div>
 
           </motion.div>
