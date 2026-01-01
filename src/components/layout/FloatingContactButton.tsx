@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Phone, MessageSquare } from 'lucide-react';
-import { PropertyEnquiryDialog } from '@/components/PropertyEnquiryDialog';
+import { Phone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { toast } from "@/hooks/use-toast";
-import { PropertyEnquiry } from '../PropertyEnquiry';
 import { Property } from '@/types/property';
-import { useAuth, useEnq, useProps, useVisit } from '@/hooks/useAuth';
+import { useProps } from '@/hooks/useAuth';
 
 
-interface FloatingContactButtonsProps {
-  property: Property;
-}
-
-export function FloatingContactButtons({ property }: FloatingContactButtonsProps) {
+export function FloatingContactButtons() {
   const [isDialing, setIsDialing] = useState(false);
   const { data: propsData } = useProps();
   const [properties, setProperties] = useState<Property[]>([]);
-  const [activeProperty, setActiveProperty] = useState<Property | null>(null);
   
   
     useEffect(() => {
@@ -73,13 +67,15 @@ console.log(titles)
         </svg>&nbsp; WhatsApp
       </a>
       
-      <PropertyEnquiry>
-      <button
+      <Link 
+        to="/enquire/general"
         className="bg-primary text-white p-3 flex rounded-l-lg hover:bg-primary/90 transition-colors shadow-md"
         aria-label="Enquire Now"
       >
-      </button>
-    </PropertyEnquiry>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>&nbsp; Enquire
+      </Link>
       
       <button 
         onClick={handleCall}

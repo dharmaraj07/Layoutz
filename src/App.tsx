@@ -17,6 +17,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { useAuth } from "./hooks/useAuth";
 import About from "./pages/About";
 import Whatsapp from "./components/whatsapp";
+import Enquire from "./pages/Enquire";
 
 function App() {
   const { data: authUser, isLoading, isError } = useAuth();
@@ -33,6 +34,7 @@ function App() {
         <Route path="/investor" element={<Investor />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/enquire/:propertyId" element={<Enquire />} />
         <Route path="/property-enquiry/:propertyId" element={<PropertyEnquiry />} />
         <Route path="/property/:title" element={<PropertyDetail />} />
 

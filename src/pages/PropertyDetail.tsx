@@ -593,15 +593,11 @@ const toggleCategory = (category: string) => {
                 Contact us today to schedule a visit or to learn more about this property.
                 Our real estate professionals are ready to assist you with all your needs.
               </p>
-              <div className="flex w-[145px]  bg-primary border rounded-lg">
-                <PropertyEnquiry>
-                <button
-
-                >
-                </button>
-              </PropertyEnquiry>
-
-              </div>
+              <Link to={`/enquire/${property?._id}`}>
+                <Button className="w-full sm:w-auto">
+                  Enquire Now
+                </Button>
+              </Link>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
               <h3 className="text-xl font-medium mb-4">Quick Contact</h3>
